@@ -5,6 +5,7 @@ const addUser = ({ id, name, room }) => {
   name = name.trim().toLowerCase();
   room = room.trim().toLowerCase();
 
+  console.log(name, room)
   const existingUser = users.find(
     user => user.room === room && user.name === name
   );
@@ -14,7 +15,7 @@ const addUser = ({ id, name, room }) => {
 
   const user = { id, name, room };
   users.push(user);
-  return { user };
+  return {user};
 };
 
 const removeUser = id => {

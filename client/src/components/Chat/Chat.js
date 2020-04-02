@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Qs from 'query-string';
 import io from 'socket.io-client';
 import './Chat.css';
-import InfoBar from '../Infobar/InfoBar'
-
+import InfoBar from '../Infobar/InfoBar';
+import Input from '../Input/Input';
 
 let socket;
+
 const Chat = ({ location }) => {
   const [username, setName] = useState('');
   const [room, setRoom] = useState('');
@@ -14,11 +15,11 @@ const Chat = ({ location }) => {
   //every messages
   const [messages, setMessages] = useState([]);
 
-  const endpoint = 'localhost:5000';
+  const endpoint = 'http://localhost:5000/';
 
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////USE EFFECT FOR JOINING AND GETTING NAME AND ROOM////////////////////////
-  
+
   useEffect(() => {
     const { name, room } = Qs.parse(location.search, {
       ignoreQueryPrefix: true
@@ -30,45 +31,37 @@ const Chat = ({ location }) => {
     socket.emit('join', { name, room }, () => {
       return () => {
         socket.emit('disconnect');
-        socket.off();
+        socket.disconnect();
       };
     });
   }, [endpoint, location.search]);
 
   //////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////USE EFFECT FOR MESSAGES//////////////////////////////////////
-  
-  
+
   useEffect(() => {
-    socket.on('message', (message) => {
-      //sending all the messages to our messages array
-      setMessages([...messages, message]);
+    socket.on('message', message => {
+      setMessages(messages => [ ...messages, message ]);
     });
-  }, [messages, message]);
+  
+}, []);
 
-  const sendMessage = e => {
-    e.preventDefault();
-    if (message) {
-      socket.emit('sendMessage', {message}, () => {
-        setMessage('')
-      
-      })
+  const sendMessage = (event) => {
+    event.preventDefault();
+
+    if(message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
     }
-  };
-
-
- 
-
-  console.log(message, messages);
+  }
   return (
     <div className='outerContainer'>
       <div className='container'>
-        <InfoBar room={room} username={username}/>
-        {/* <input
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-          onKeyPress={e => (e.key === 'Enter' ? sendMessage(e) : null)}
-        /> */}
+        <InfoBar room={room} username={username} />
+        <Input
+          message={message}
+          sendMessage={sendMessage}
+          setMessage={setMessage}
+        />
       </div>
     </div>
   );

@@ -3,12 +3,12 @@ import './InfoBar.css';
 import closeIcon from '../../icons/closeIcon.png';
 import onlineIcon from '../../icons/onlineIcon.png';
 
-const InfoBar = () => {
+const InfoBar = ({room}) => {
   return (
     <div className='infoBar'>
       <div className='leftInnerContainer'>
         <img className='onlineIcon' src={onlineIcon} alt='online icon' />
-        <h3>Roomname</h3>
+        <h3>{room}</h3>
       </div>
       <div className='rightInnerContainer'>
         <a href='/'>
