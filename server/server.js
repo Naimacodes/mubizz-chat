@@ -22,11 +22,10 @@ io.on('connection', socket => {
       user: 'admin',
       text: `${user.name}, welcome to room ${user.room}.`
     });
-    socket.broadcast
-      .to(user.room)
-      .emit('message', { user: 'admin', text: `${user.name} has joined the conversation` });
-
-
+    socket.broadcast.to(user.room).emit('message', {
+      user: 'admin',
+      text: `${user.name} has joined the conversation`
+    });
 
     callback();
   });
@@ -34,7 +33,6 @@ io.on('connection', socket => {
   /////////we are expecting user generated messages
   socket.on('sendMessage', (message, callback) => {
     const user = getUser(socket.id);
-
     io.to(user.room).emit('message', { user: user.name, text: message });
 
     callback();
