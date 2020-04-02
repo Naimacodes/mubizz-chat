@@ -1,7 +1,6 @@
 import React from 'react';
 import './Input.css';
-import closeIcon from '../../icons/closeIcon.png';
-import onlineIcon from '../../icons/onlineIcon.png';
+
 
 const Input = ({message, setMessage, sendMessage}) => {
   return (
