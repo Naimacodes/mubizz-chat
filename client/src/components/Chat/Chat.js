@@ -18,6 +18,7 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState('');
 
+  // const endpoint = 'https://mubizz-chat-app.herokuapp.com/';
   const endpoint = 'http://localhost:5000/';
 
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -44,13 +45,13 @@ const Chat = ({ location }) => {
 
   useEffect(() => {
     socket.on('message', message => {
-      setMessages(messages => [ ...messages, message ]);
+      setMessages(messages => [...messages, message]);
     });
-    
-    socket.on("roomData", ({ users }) => {
+
+    socket.on('roomData', ({ users }) => {
       setUsers(users);
     });
-}, []);
+  }, []);
 
   const sendMessage = e => {
     e.preventDefault();
@@ -59,8 +60,6 @@ const Chat = ({ location }) => {
       socket.emit('sendMessage', message, () => setMessage(''));
     }
   };
-
-
 
   return (
     <div className='outerContainer'>
@@ -72,7 +71,6 @@ const Chat = ({ location }) => {
           sendMessage={sendMessage}
           setMessage={setMessage}
         />
-       
       </div>
       <TextContainer users={users} />
     </div>

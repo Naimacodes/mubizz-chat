@@ -26,6 +26,23 @@
   margin-top: 3px;
 }
 
+.name-top{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom : 0px;
+  padding: 0 5%;
+}
+
+.name-top-grey{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom : 0px;
+  padding: 0 5%;
+}
+
+
 .sentText {
   display: flex;
   align-items: center;

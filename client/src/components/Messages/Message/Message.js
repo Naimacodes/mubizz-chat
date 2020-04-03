@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './Message.css';
 import ReactEmoji from 'react-emoji';
 
@@ -10,19 +10,29 @@ const Message = ({ message: { user, text }, name }) => {
   }
 
   return isSentByCurrentUser ? (
-    <div className='messageContainer justifyEnd'>
-      <p className='sent-text pr-10'>{trimName}</p>
-      <div className='messageBox backgroundBlue'>
-        <p className='messageText colorWhite'>{ReactEmoji.emojify(text)}</p>
+    <Fragment>
+      <div className='name-top'>
+        <p className='sent-text pr-10 '>{trimName}</p>
       </div>
-    </div>
+
+      <div className='messageContainer justifyEnd'>
+        <div className='messageBox backgroundBlue'>
+          <p className='messageText colorWhite'>{ReactEmoji.emojify(text)}</p>
+        </div>
+      </div>
+    </Fragment>
   ) : (
+    <Fragment>
+    <div className='name-top-grey'>
+      <p className='sent-text pr-10 '>{user}</p>
+    </div>
     <div className='messageContainer justifyStart'>
       <div className='messageBox backgroundLight'>
         <p className='messageText colorDark'>{ReactEmoji.emojify(text)}</p>
       </div>
-      <p className='sent-text pl-10'>{user}</p>
+      
     </div>
+    </Fragment>
   );
 };
 
