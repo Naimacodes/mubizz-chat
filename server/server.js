@@ -47,6 +47,23 @@ io.on('connection', socket => {
     callback();
   });
 
+ 
+  //Someone is typing
+  socket.on('typing', data => {
+    const user = getCurrentUser(socket.id);
+    socket.broadcast.emit('notifyTyping', {
+
+      user: user.username,
+      message: data.message
+    });
+  });
+
+  //when someone stops typing
+  socket.on('stopTyping', () => {
+    socket.broadcast.emit('notifyStopTyping');
+  });
+
+
   socket.on('disconnect', () => {
     const user = removeUser(socket.id)
     if (user) {
