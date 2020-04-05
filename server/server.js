@@ -1,7 +1,8 @@
 const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
-const cors = require('cors')
+const cors = require('cors');
+const connectDB = require('./config/db');
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
@@ -12,8 +13,9 @@ const server = http.createServer(app);
 const io = socketio(server);
 app.use(router);
 app.use(cors);
+connectDB();
 
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
@@ -23,16 +25,17 @@ io.on('connection', socket => {
     /////////this one right here emits to the front end ADMIN generated messages
     socket.emit('message', {
       user: 'admin',
-      text: `${user.name}, welcome to room ${user.room}.`
+      text: `${user.name}, welcome to room ${user.room}.`,
     });
-    socket.broadcast
-      .to(user.room)
-      .emit('message', {
-        user: 'admin',
-        text: `${user.name} has joined the conversation.`
-      });
+    socket.broadcast.to(user.room).emit('message', {
+      user: 'admin',
+      text: `${user.name} has joined the conversation.`,
+    });
 
-      io.to(user.room).emit('roomData', {room: user.room, users : getUsersInRoom(user.room)} )
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
 
     callback();
   });
@@ -42,19 +45,20 @@ io.on('connection', socket => {
     const user = getUser(socket.id);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
-    io.to(user.room).emit('roomData', { room: user.room, users : getUsersInRoom(user.room)});
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
 
     callback();
   });
 
- 
   //Someone is typing
-  socket.on('typing', data => {
-    const user = getCurrentUser(socket.id);
+  socket.on('typing', (data) => {
+    const user = getUser(socket.id);
     socket.broadcast.emit('notifyTyping', {
-
-      user: user.username,
-      message: data.message
+      user: user.name,
+      message: data.message,
     });
   });
 
@@ -63,11 +67,13 @@ io.on('connection', socket => {
     socket.broadcast.emit('notifyStopTyping');
   });
 
-
   socket.on('disconnect', () => {
-    const user = removeUser(socket.id)
+    const user = removeUser(socket.id);
     if (user) {
-      io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left`})
+      io.to(user.room).emit('message', {
+        user: 'Admin',
+        text: `${user.name} has left`,
+      });
     }
   });
 });
