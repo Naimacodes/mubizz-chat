@@ -1,20 +1,25 @@
 const express = require('express');
 const socketio = require('socket.io');
+
 const http = require('http');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const Message = require('./models/Message');
+
+
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
-const router = require('./router');
+
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-app.use(router);
+
 app.use(cors);
 connectDB();
+app.use(express.json({ extended: false }));
+//Defines Routes
+app.use('/api/messages', require('./routes/messages'));
 
 io.on('connection', (socket) => {
   socket.on('join', ({ name, room }, callback) => {
