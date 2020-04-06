@@ -26,7 +26,7 @@ const Chat = ({ location }) => {
 
   useEffect(() => {
     const { name, room } = Qs.parse(location.search, {
-      ignoreQueryPrefix: true
+      ignoreQueryPrefix: true,
     });
     setName(name);
     setRoom(room);
@@ -40,39 +40,16 @@ const Chat = ({ location }) => {
     });
   }, [endpoint, location.search]);
 
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-
-// isTyping event
-messageInput.addEventListener("keypress", () => {
-  socket.emit("typing", { user: "Someone", message: "is typing..." });
-});
-
-socket.on("notifyTyping", data => {
-  typing.innerText = data.user + " " + data.message;
-  console.log(data.user + data.message);
-});
-
-//stop typing
-messageInput.addEventListener("keyup", () => {
-  socket.emit("stopTyping", "");
-});
-
-socket.on("notifyStopTyping", () => {
-  typing.innerText = "";
-});
-
-
-
-
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////USE EFFECT FOR MESSAGES//////////////////////////////////////
 
   useEffect(() => {
-    socket.on('message', message => {
-      setMessages(messages => [...messages, message]);
+    socket.on('message', (message) => {
+      setMessages((messages) => [...messages, message]);
     });
 
     socket.on('roomData', ({ users }) => {
@@ -80,7 +57,7 @@ socket.on("notifyStopTyping", () => {
     });
   }, []);
 
-  const sendMessage = e => {
+  const sendMessage = (e) => {
     e.preventDefault();
 
     if (message) {
