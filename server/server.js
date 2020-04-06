@@ -3,6 +3,7 @@ const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const Message = require('./models/Message');
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
@@ -53,19 +54,21 @@ io.on('connection', (socket) => {
     callback();
   });
 
-  //Someone is typing
-  socket.on('typing', (data) => {
-    const user = getUser(socket.id);
-    socket.broadcast.emit('notifyTyping', {
-      user: user.name,
-      message: data.message,
-    });
-  });
+  // //Someone is typing
+  // socket.on('typing', (data) => {
+  //   const user = getUser(socket.id);
+  //   socket.broadcast.emit('notifyTyping', {
+  //     user: user.name,
+  //     message: data.message,
+  //   });
+  // });
 
-  //when someone stops typing
-  socket.on('stopTyping', () => {
-    socket.broadcast.emit('notifyStopTyping');
-  });
+  // //when someone stops typing
+  // socket.on('stopTyping', () => {
+  //   socket.broadcast.emit('notifyStopTyping');
+  // });
+
+  
 
   socket.on('disconnect', () => {
     const user = removeUser(socket.id);
