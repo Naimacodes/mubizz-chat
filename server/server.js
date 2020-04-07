@@ -1,23 +1,23 @@
 const express = require('express');
 const socketio = require('socket.io');
-
 const http = require('http');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const Message = require('./models/Message');
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-app.use(cors);
+// app.use(cors);
 connectDB();
-app.use(express.json({ extended: false }));
-//Defines Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/messages', require('./routes/messages'));
+
+app.use('/api/users', require('./routes/users'))
+app.use('/api/auth', require('./routes/auth'))
+app.use('/api/messages', require('./routes/messages'))
 
 io.on('connection', (socket) => {
   socket.on('join', ({ name, room }, callback) => {
@@ -57,19 +57,7 @@ io.on('connection', (socket) => {
     callback();
   });
 
-  // //Someone is typing
-  // socket.on('typing', (data) => {
-  //   const user = getUser(socket.id);
-  //   socket.broadcast.emit('notifyTyping', {
-  //     user: user.name,
-  //     message: data.message,
-  //   });
-  // });
-
-  // //when someone stops typing
-  // socket.on('stopTyping', () => {
-  //   socket.broadcast.emit('notifyStopTyping');
-  // });
+  
 
   socket.on('disconnect', () => {
     const user = removeUser(socket.id);

@@ -1,27 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const auth = require('../middleware/auth')
+const { check, validationResult } = require('express-validator');
 const Message = require('../models/Message');
 
-//test route
-router.get('/test', (req, res) => {
-  res.send('message route');
-  console.log('this is the test route');
+
+router.get('/', auth, async (req, res) => {
+  try {
+    const messages = await Message.find({ user: req.user.id }).sort({
+      date: -1
+    });
+    res.json(messages);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
 });
 
-// GET all Messages
-router.get('/', (req, res) => {
-  Message.find({}, (err, message) => {
-    res.send(messages);
-  });
-});
 
-// POST new message
-router.post('/', (req, res) => {
-  let message = new Message(req.body);
-  message.save((err) => {
-    if (err) sendStatus(500);
-    res.sendStatus(200);
-  });
-});
+
 
 module.exports = router;
