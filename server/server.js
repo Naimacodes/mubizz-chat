@@ -1,9 +1,8 @@
 const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
-const cors = require('cors');
 const connectDB = require('./config/db');
-const Message = require('./models/Message');
+const bodyParser = require("body-parser");
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
@@ -12,9 +11,10 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// app.use(cors);
-connectDB();
 
+connectDB();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/users', require('./routes/users'))
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/messages', require('./routes/messages'))
@@ -69,6 +69,13 @@ io.on('connection', (socket) => {
     }
   });
 });
+
+// // to assign a socket object to every request
+// app.use(function(req, res, next) {
+//   req.io = io;
+//   next();
+// });
+
 
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)

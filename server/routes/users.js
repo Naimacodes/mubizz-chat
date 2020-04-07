@@ -11,10 +11,6 @@ const User = require('../models/User');
 //@desc Register a user.
 //@access Public.
 
-router.get('/',  (req, res) => {
-  res.send('test route')
-} )
-
 router.post(
   '/',
   [
@@ -61,7 +57,7 @@ router.post(
         if (err) throw err;
         res.json({token})
       });
-    } catch (error) {
+    } catch (err) {
       console.error(err.message);
       res.status(500).send('server error');
     }
