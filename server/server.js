@@ -67,11 +67,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// // to assign a socket object to every request
-// app.use(function(req, res, next) {
-//   req.io = io;
-//   next();
-// });
+
 
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)
