@@ -12,6 +12,9 @@ import {
 const ChatState = (props) => {
   const initialState = {
     users: null,
+    contacts: [],
+    conversations: [],
+    currentConversation: null,
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -34,11 +37,12 @@ const ChatState = (props) => {
     }
   };
 
-  
   //GET_CONVERSATION_MSGS
   const getConversationMsgs = async (id) => {
     try {
-      const res = await axios.get(`/api/messages/conversations/query?userId=${id}`);
+      const res = await axios.get(
+        `/api/messages/conversations/query?userId=${id}`
+      );
 
       dispatch({
         type: GET_CONVERSATION_MSGS,
@@ -50,34 +54,36 @@ const ChatState = (props) => {
         payload: err.response.msg,
       });
     }
-  }
-  
+  };
 
   //SEND_CONVERSATION_MSGS
-  const sendConversationMsgs= async (id, body) => {
+  const sendConversationMsgs = async (id, message) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        body: JSON.stringify({ to: id, body: body }),
-      }
+        body: JSON.stringify({ to: id, body: message }),
+      },
     };
     try {
-      const res = await axios.post('/api/messages', id, body, config);
+      const res = await axios.post('/api/messages', id, message, config);
       dispatch({ type: SEND_CONVERSATION_MSGS, payload: res.data });
     } catch (error) {
       dispatch({ type: CONVERSATION_ERROR, payload: error.response.msg });
     }
+  };
 
-  }
+  //CLEAR_CONVERSATION
 
   return (
     <ChatContext.Provider
       value={{
         users: state.users,
+        contacts: state.contacts,
+        conversations: state.conversations,
+        currentConversation: state.currentConversation,
         getConversations,
         getConversationMsgs,
-        sendConversationMsgs
-      
+        sendConversationMsgs,
       }}
     >
       {props.children}
