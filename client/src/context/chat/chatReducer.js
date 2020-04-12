@@ -1,12 +1,14 @@
 import {
-  GET_CONVERSATION,
+  GET_CONVERSATIONS,
   GET_CONVERSATION_MSGS,
   SEND_CONVERSATION_MSGS,
+  CONVERSATION_ERROR
+   
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
-    case GET_CONVERSATION:
+    case GET_CONVERSATIONS:
       return {
         ...state,
         something: action.payload,
@@ -21,6 +23,11 @@ export default (state, action) => {
         ...state,
         something: action.payload,
       };
+      case CONVERSATION_ERROR:
+        return {
+          ...state,
+          error: action.payload
+        };
     default:
       return {
         ...state,
