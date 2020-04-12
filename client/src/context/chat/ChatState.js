@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import chatReducer from './chatReducer';
 import ChatContext from './chatContext';
 import axios from 'axios';
-import { GET_USER, GET_USERS_IN_ROOM, ADD_USER, REMOVE_USER } from '../types';
+import { GET_CONVERSATION, GET_CONVERSATION_MSGS, SEND_CONVERSATION_MSGS} from '../types';
 
 const ChatState = (props) => {
   const initialState = {
@@ -11,10 +11,11 @@ const ChatState = (props) => {
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
 
-  //ADD_USER
-  //REMOVE_USER
-  //GET_USER
-  //GET_USERS_IN_ROOM
+
+  //GET_CONVERSATION
+  //GET_CONVERSATION_MSGS
+  //SEND_CONVERSATION_MSGS
+
 
  
   return (
