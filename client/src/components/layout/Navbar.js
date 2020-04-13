@@ -36,9 +36,9 @@ const Navbar = ({ title, icon }) => {
   );
   return (
     <div className='navbar'>
-      <h1 style={{ color: 'white' }}>
+      <h2 style={{ color: 'white' }}>
         <i className={icon} /> {title}
-      </h1>
+      </h2>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
   );

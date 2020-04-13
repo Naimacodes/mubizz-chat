@@ -12,6 +12,7 @@ import AlertState from './context/alert/AlertState';
 import setAuthToken from './utils/setAuthToken';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
+import './Chat-app.css'
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -27,9 +28,11 @@ function App() {
             </Fragment>
             <Alerts />
             <Switch>
+              <div className="container">
               <PrivateRoute exact path='/' component={Home}></PrivateRoute>
               <Route exact path='/register' component={Register}></Route>
               <Route exact path='/login' component={Login}></Route>
+              </div>
             </Switch>
           </Router>
         </AlertState>

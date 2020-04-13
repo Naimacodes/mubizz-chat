@@ -1,22 +1,16 @@
 import React from 'react';
-import './Input.css';
+// import './Input.css';
 
-const Input = ({ message, setMessage, sendMessage, typing }) => {
+const Input = () => {
   return (
-    <form className='form'>
-      <input
-        type='text'
-        className='input'
-        placeholder='type your message'
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyPress={(e) => (e.key === 'Enter' ? sendMessage(e) : null)}
-      />
- 
-      <button className='sendButton' onClick={(e) => sendMessage(e)}>
-        Send
-      </button>
-    </form>
+    <div class='type_msg'>
+      <div class='input_msg_write'>
+        <input type='text' class='input_msg_write' placeholder='Type a message' />
+        <button class='msg_send_btn' type='button'>
+          <i class='fa fa-paper-plane' aria-hidden='true'></i>
+        </button>
+      </div>
+    </div>
   );
 };
 
