@@ -14,7 +14,6 @@ const Chat = () => {
     <div >
       <div >
         <ListConversation></ListConversation>
-        <Conversations></Conversations>
         <InfoBar />
         
 
