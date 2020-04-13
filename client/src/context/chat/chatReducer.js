@@ -11,7 +11,7 @@ export default (state, action) => {
     case GET_CONVERSATIONS:
       return {
         ...state,
-        something: action.payload,
+        conversations: action.payload,
       };
     case GET_CONVERSATION_MSGS:
       return {

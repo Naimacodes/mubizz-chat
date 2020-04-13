@@ -26,11 +26,11 @@ const Navbar = ({ title, icon }) => {
 
   const guestLinks = (
     <Fragment>
-      <li>
-        <Link to='/login'>Login</Link>
+      <li >
+        <Link  style={{ color: 'white' }} to='/login'>Login</Link>
       </li>
       <li>
-        <Link to='/register'>Register</Link>
+        <Link style={{ color: 'white' }} to='/register'>Register</Link>
       </li>
     </Fragment>
   );

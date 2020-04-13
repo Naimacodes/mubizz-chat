@@ -10,46 +10,46 @@ const Message = () => {
 
   return (
     <Fragment>
-      <div class='mesgs'>
-        <div class='msg_history'>
-          <div class='incoming_msg'>
-            <div class='incoming_msg_img'>
+      <div className='mesgs'>
+        <div className='msg_history'>
+          <div className='incoming_msg'>
+            <div className='incoming_msg_img'>
               <img
                 src='https://s3.us-east-2.amazonaws.com/upload-icon/uploads/icons/png/19339625881548233621-256.png'
                 alt='sunil'
               />
             </div>
-            <div class='received_msg'>
-              <div class='received_withd_msg'>
+            <div className='received_msg'>
+              <div className='received_withd_msg'>
                 <p>Hey, this is a placeholder conversation.</p>
-                <span class='time_date'> 10:01 AM | April 9</span>
+                <span className='time_date'> 10:01 AM | April 9</span>
               </div>
             </div>
           </div>
-          <div class='outgoing_msg'>
-            <div class='sent_msg'>
+          <div className='outgoing_msg'>
+            <div className='sent_msg'>
               <p>Great.</p>
-              <span class='time_date'> 11:30 AM | April 10</span>
+              <span className='time_date'> 11:30 AM | April 10</span>
             </div>
           </div>
-          <div class='outgoing_msg'>
-            <div class='sent_msg'>
+          <div className='outgoing_msg'>
+            <div className='sent_msg'>
               <p>There is still work to do.</p>
-              <span class='time_date'> 11:31 AM | April 10</span>
+              <span className='time_date'> 11:31 AM | April 10</span>
             </div>
           </div>
 
-          <div class='incoming_msg'>
-            <div class='incoming_msg_img'>
+          <div className='incoming_msg'>
+            <div className='incoming_msg_img'>
               <img
                 src='https://s3.us-east-2.amazonaws.com/upload-icon/uploads/icons/png/19339625881548233621-256.png'
                 alt='sunil'
               />
             </div>
-            <div class='received_msg'>
-              <div class='received_withd_msg'>
+            <div className='received_msg'>
+              <div className='received_withd_msg'>
                 <p>I know right ?</p>
-                <span class='time_date'> 01:35 PM | April 10</span>
+                <span className='time_date'> 01:35 PM | April 10</span>
               </div>
             </div>
           </div>

@@ -14,7 +14,7 @@ import {
 const ChatState = (props) => {
   const initialState = {
     users: null,
-    contacts: [],
+    contacts: null,
     conversations: [],
     currentConversation: null,
   };
@@ -26,11 +26,14 @@ const ChatState = (props) => {
   const getConversations = async () => {
     try {
       const res = await axios.get('/api/messages/conversations');
+      
 
       dispatch({
         type: GET_CONVERSATIONS,
         payload: res.data,
-      });
+        
+      })
+      
     } catch (err) {
       dispatch({
         type: CONVERSATION_ERROR,

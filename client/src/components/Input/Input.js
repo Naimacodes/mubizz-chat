@@ -3,11 +3,11 @@ import React from 'react';
 
 const Input = () => {
   return (
-    <div class='type_msg'>
-      <div class='input_msg_write'>
-        <input type='text' class='input_msg_write' placeholder='Type a message' />
-        <button class='msg_send_btn' type='button'>
-          <i class='fa fa-paper-plane' aria-hidden='true'></i>
+    <div className='type_msg'>
+      <div className='input_msg_write'>
+        <input type='text' className='input_msg_write' placeholder='Type a message' />
+        <button className='msg_send_btn' type='button'>
+          <i className='fa fa-paper-plane' aria-hidden='true'></i>
         </button>
       </div>
     </div>
