@@ -7,6 +7,8 @@ import {
   GET_CONVERSATION_MSGS,
   SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
+  ADD_PARTICIPANTS,
+  SET_CURRENT_CONVERSATION
 } from '../types';
 
 const ChatState = (props) => {
@@ -38,6 +40,7 @@ const ChatState = (props) => {
   };
 
   //GET_CONVERSATION_MSGS
+  //get all the messages from a conversation
   const getConversationMsgs = async (id) => {
     try {
       const res = await axios.get(
@@ -72,7 +75,18 @@ const ChatState = (props) => {
     }
   };
 
-  //CLEAR_CONVERSATION
+
+
+  //SET CURRENT CONVERSATION
+  const setCurrentConversation = id => {
+    dispatch({
+      type: SET_CURRENT_CONVERSATION,
+      payload: id,
+    });
+};
+
+
+
 
   return (
     <ChatContext.Provider
@@ -84,6 +98,7 @@ const ChatState = (props) => {
         getConversations,
         getConversationMsgs,
         sendConversationMsgs,
+        setCurrentConversation,
       }}
     >
       {props.children}
