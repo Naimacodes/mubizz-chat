@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, Fragment } from 'react';
+import moment from 'moment'
 
 
 const ConversationItem = ({ conversation }) => {
   
   const { lastMessage, recipientObj, date } = conversation;
+  let dateMessage = date
+   dateMessage = moment().format('MMM Do YY')
 
   return (
 
     
-      <div className='chat_list active_chat'>
+      <div className='chat_list '>
+        {/* need to toggle active_chat class on click later */}
         <div className='chat_people'>
           <div className='chat_img'>
             <img
@@ -19,7 +23,7 @@ const ConversationItem = ({ conversation }) => {
           <div className='chat_ib'>
             <h5>
               {recipientObj[0].name}
-              <span className='chat_date'>{date.toString()}</span>
+              <span className='chat_date'>{dateMessage}</span>
             </h5>
             <p>{lastMessage}</p>
           </div>
