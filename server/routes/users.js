@@ -7,8 +7,9 @@ const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 
-router.get("/test", (req, res) => { res.send('test route'); });
-
+router.get('/test', (req, res) => {
+  res.send('test route');
+});
 
 //@route /api/users
 //@desc Register a user.
@@ -70,14 +71,13 @@ router.post(
   }
 );
 
-
 // @route   GET /api/users/search/:name
 // @desc search database for user, if user exists, respond with { name }
 // @access  private
 
 router.get('/search/:name', auth, async (req, res) => {
   try {
-    const { name } = req.params
+    const { name } = req.params;
     const user = await User.findOne({ name });
 
     if (!user) return res.send('no user with that name exists').end();
@@ -89,29 +89,42 @@ router.get('/search/:name', auth, async (req, res) => {
 });
 
 
-// @route   POST /api/users/contacts
+// @route   GET /api/users/contacts
+// @desc Get our current user's contacts.
 // @access  private
-// Add a certain user to current user's contacts.
-router.post('/contacts', auth, async (req, res) => {
+
+router.get('/contacts', auth, async (req, res) => {
   try {
-    const { username } = req
-    const { userToAdd } = req.body;
-    
-    const query = await User.updateOne(
-      { username }, 
-      { $addToSet: { contacts: userToAdd } }
-    );
-
-    
-    if (!query.n) return res.status(400).end();
- 
-    res.end();
-
+    const { username } = req;
+    const user = await User.findOne({ username });
+    if (!user) return res.status(400).end();
+    res.json(user.contacts);
   } catch (err) {
     res.status(500).end();
   }
 });
 
+// @route   POST /api/users/contacts
+// @desc Add a certain user to our current user's contacts.
+// @access  private
+
+router.post('/contacts', auth, async (req, res) => {
+  try {
+    const { username } = req;
+    const { userToAdd } = req.body;
+
+    const query = await User.updateOne(
+      { username },
+      { $addToSet: { contacts: userToAdd } }
+    );
+
+    if (!query.n) return res.status(400).end();
+
+    res.end();
+  } catch (err) {
+    res.status(500).end();
+  }
+});
 
 
 
