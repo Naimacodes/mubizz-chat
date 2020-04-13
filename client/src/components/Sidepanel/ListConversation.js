@@ -1,6 +1,7 @@
 import React from 'react';
 import Messages from '../Messages/Messages';
 import Conversations from './Conversations'
+import SearchConversation from './SearchConversation'
 
 
 const ListConversation = () => {
@@ -14,21 +15,8 @@ const ListConversation = () => {
             <div className='recent_heading'>
               <h4>Recent</h4>
             </div>
-            <div className='srch_bar'>
-              <div className='stylish-input-group'>
-                <input
-                  type='text'
-                  className='search-bar'
-                  placeholder='Search'
-                ></input>
-                <span className='input-group-addon'>
-                  <button type='button'>
-                    {' '}
-                    <i className='fa fa-search' aria-hidden='true'></i>{' '}
-                  </button>
-                </span>
-              </div>
-            </div>
+          {/* here */}
+          <SearchConversation/>
           </div>
 
           

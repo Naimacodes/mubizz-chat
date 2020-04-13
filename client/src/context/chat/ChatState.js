@@ -8,7 +8,9 @@ import {
   SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
-  SET_CURRENT_CONVERSATION
+  SET_CURRENT_CONVERSATION,
+  FILTER_CONVERSATION,
+  CLEAR_FILTER
 } from '../types';
 
 const ChatState = (props) => {
@@ -17,6 +19,7 @@ const ChatState = (props) => {
     contacts: null,
     conversations: [],
     currentConversation: null,
+    filtered: null,
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -89,6 +92,17 @@ const ChatState = (props) => {
 };
 
 
+//FILTER_CONVERSATION,
+
+const filterConversation = text => {
+  dispatch({ type: FILTER_CONVERSATION, payload: text });
+};
+
+//CLEAR_FILTER
+const clearFilter = () => {
+  dispatch({ type: CLEAR_FILTER });
+};
+
 
 
   return (
@@ -98,10 +112,13 @@ const ChatState = (props) => {
         contacts: state.contacts,
         conversations: state.conversations,
         currentConversation: state.currentConversation,
+        filtered: state.filtered,
         getConversations,
         getConversationMsgs,
         sendConversationMsgs,
         setCurrentConversation,
+        filterConversation,
+        clearFilter
       }}
     >
       {props.children}

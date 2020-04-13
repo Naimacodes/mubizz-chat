@@ -4,6 +4,8 @@ import {
   SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
+  FILTER_CONVERSATION,
+  CLEAR_FILTER
 } from '../types';
 
 export default (state, action) => {
@@ -33,6 +35,20 @@ export default (state, action) => {
         ...state,
         error: action.payload,
       };
+
+    case FILTER_CONVERSATION:
+      return {
+        ...state,
+        filtered: state.conversations.filter((conversation) => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return conversation.recipientObj[0].name.match(regex) || conversation.recipientObj[1].name.match(regex);
+        }),
+      };
+      case CLEAR_FILTER:
+        return {
+          ...state,
+          filtered: null
+        };
     default:
       return {
         ...state,
