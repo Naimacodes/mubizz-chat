@@ -90,7 +90,7 @@ router.get('/conversations/query', auth, (req, res) => {
     });
 });
 
-//@route api/messages/
+//@route api/messages/conversations
 //@desc add message to an existing conversation
 //@access private
 
@@ -126,9 +126,8 @@ router.post('/', auth, (req, res) => {
         
         message.save((err) => {
           if (err) {
-            console.log(err);
-
-            res.end(JSON.stringify({ message: 'error' }));
+            console.error(err.message);
+            res.status(500).send('server error');
           } else {
             res.setHeader('Content-Type', 'application/json');
             res.end(
