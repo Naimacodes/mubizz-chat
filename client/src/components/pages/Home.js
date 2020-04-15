@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, Fragment } from 'react';
 import AuthContext from '../../context/auth/authContext';
-import Messages from '../Messages/Messages';
+import Messages from '../Sidepanel/Messages';
 import Conversations from '../Sidepanel/Conversations';
 import SearchConversation from '../Sidepanel/SearchConversation';
 

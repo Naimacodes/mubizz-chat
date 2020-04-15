@@ -1,16 +1,26 @@
 import React, { useContext, useEffect, Fragment } from 'react';
 import ConversationItem from './ConversationItem';
-import ListConversation from './ListConversation';
+
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 
 const Conversations = () => {
   const chatContext = useContext(ChatContext);
-  const { conversations, filtered, loading } = chatContext;
-
+  const { getConversations, conversations, filtered, loading } = chatContext;
+  useEffect(() => {
+    getConversations();
+  }, []);
 
   if (conversations !== null && conversations.length === 0 && !loading) {
-    return <h4>Please start a conversation</h4>;
+    return (
+      <div className='chat_list '>
+        <div className='chat_people'>
+          <div className='chat_ib'>
+            <h5>You have no conversations for now.</h5>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -19,22 +29,23 @@ const Conversations = () => {
         <div className='inbox_chat'>
           {filtered !== null
             ? filtered.map((conversation) => (
-          
-                  <ConversationItem key={conversation._id} conversation={conversation} />
-                
+                <ConversationItem
+                  key={conversation._id}
+                  conversation={conversation}
+                />
               ))
             : conversations.map((conversation) => (
-                
-                  <ConversationItem key={conversation._id} conversation={conversation} />
-               
+                <ConversationItem
+                  key={conversation._id}
+                  conversation={conversation}
+                />
               ))}
         </div>
       ) : (
         <Spinner />
       )}
     </Fragment>
-
-  )
+  );
 };
 
 export default Conversations;

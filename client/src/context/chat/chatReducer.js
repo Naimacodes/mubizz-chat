@@ -5,7 +5,8 @@ import {
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
   FILTER_CONVERSATION,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  SET_CURRENT_CONVERSATION
 } from '../types';
 
 export default (state, action) => {
@@ -14,6 +15,7 @@ export default (state, action) => {
       return {
         ...state,
         conversations: action.payload,
+        loading: false
       };
     case GET_CONVERSATION_MSGS:
       return {
@@ -35,13 +37,17 @@ export default (state, action) => {
         ...state,
         error: action.payload,
       };
-
+      case SET_CURRENT_CONVERSATION:
+        return {
+          ...state,
+          current: action.payload
+        };
     case FILTER_CONVERSATION:
       return {
         ...state,
-        filtered: state.conversations.filter((conversation) => {
+        filtered: state.conversations.filter(conversation => {
           const regex = new RegExp(`${action.payload}`, 'gi');
-          return conversation.recipientObj[0].name.match(regex) || conversation.recipientObj[1].name.match(regex);
+          return conversation.recipientObj[0].name.match(regex) 
         }),
       };
       case CLEAR_FILTER:

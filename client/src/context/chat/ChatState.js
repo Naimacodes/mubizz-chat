@@ -17,9 +17,12 @@ const ChatState = (props) => {
   const initialState = {
     users: null,
     contacts: null,
-    conversations: [],
+    conversations: null,
+    conversation: null,
     currentConversation: null,
-    filtered: null
+    filtered: null,
+    
+    
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -84,10 +87,10 @@ const ChatState = (props) => {
 
 
   //SET CURRENT CONVERSATION
-  const setCurrentConversation = id => {
+  const setCurrentConversation = conversation => {
     dispatch({
       type: SET_CURRENT_CONVERSATION,
-      payload: id,
+      payload: conversation,
     });
 };
 
@@ -113,6 +116,7 @@ const clearFilter = () => {
         conversations: state.conversations,
         currentConversation: state.currentConversation,
         filtered: state.filtered,
+        conversation : state.conversation,
         getConversations,
         getConversationMsgs,
         sendConversationMsgs,
