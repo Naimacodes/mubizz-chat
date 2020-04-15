@@ -19,7 +19,7 @@ const ChatState = (props) => {
     contacts: null,
     conversations: [],
     currentConversation: null,
-    filtered: null,
+    filtered: null
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
