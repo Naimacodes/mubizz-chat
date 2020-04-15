@@ -6,6 +6,13 @@ const ConversationSchema = new Schema({
   lastMessage: {
     type: String,
   },
+  messages: [
+    {
+      user: String,
+      body: String,
+      date: Date.now()
+    }
+  ],
   date: {
     type: String,
     default: Date.now,
