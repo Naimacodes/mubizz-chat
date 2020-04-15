@@ -12,11 +12,7 @@ const ConversationSchema = new Schema({
       body: String,
       date: Date.now()
     }
-  ],
-  date: {
-    type: String,
-    default: Date.now,
-  },
+  ]
 });
 
 module.exports = mongoose.model('conversations', ConversationSchema);

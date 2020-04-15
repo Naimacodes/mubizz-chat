@@ -22,7 +22,7 @@ const UserSchema = mongoose.Schema({
   conversations: [
     {
       conversationId: Schema.Types.ObjectId,
-      
+      lastMessageRead: Number
     }
   ]
 });

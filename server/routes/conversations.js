@@ -1,146 +1,58 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const Message = require('../models/Message');
 const Conversation = require('../models/Conversation');
-
 
 //@route api/messages
 //@desc get list of all the conversations of a user
 //@access private
-router.get('/conversations', auth, (req, res) => {
-  let from = mongoose.Types.ObjectId(req.user.id);
-  Conversation.aggregate([
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'recipients',
-        foreignField: '_id',
-        as: 'recipientObj',
-      },
-    },
-  ])
-    .match({ recipients: { $all: [{ $elemMatch: { $eq: from } }] } })
-    .project({
-      'recipientObj.password': 0,
-      'recipientObj.__v': 0,
-      'recipientObj.date': 0,
-    })
-    .exec((err, conversations) => {
-      if (err) {
-        console.log(err);
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ message: 'error' }));
-        res.sendStatus(500);
-      } else {
-        res.send(conversations);
-      }
-    });
-});
+router.get('/', auth, async (req, res) => {
+  try {
+    const { user } = req;
+    const user = await User.findOne({ user });
 
-//@route api/messages/conversations/query
-//@desc Get messages from conversation based on to & from
-//@access private
-
-router.get('/conversations/query', auth, (req, res) => {
-  let user1 = mongoose.Types.ObjectId(req.user.id);
-  let user2 = mongoose.Types.ObjectId(req.query.userId);
-  Message.aggregate([
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'to',
-        foreignField: '_id',
-        as: 'toObj',
-      },
-    },
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'from',
-        foreignField: '_id',
-        as: 'fromObj',
-      },
-    },
-  ])
-    .match({
-      $or: [
-        { $and: [{ to: user1 }, { from: user2 }] },
-        { $and: [{ to: user2 }, { from: user1 }] },
-      ],
-    })
-    .project({
-      'toObj.password': 0,
-      'toObj.__v': 0,
-      'toObj.date': 0,
-      'fromObj.password': 0,
-      'fromObj.__v': 0,
-      'fromObj.date': 0,
-    })
-    .exec((err, messages) => {
-      if (err) {
-        console.log(err);
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ message: 'Error' }));
-        res.sendStatus(500);
-      } else {
-        res.send(messages);
-      }
+    const conversationIds = user.conversations.map(
+      (conversation) => conversation.conversationId
+    );
+    const conversations = await Conversation.find({
+      _id: { $in: conversationIds },
     });
+
+    res.json(conversations);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('server error');
+  }
 });
 
 //@route api/messages/conversations
 //@desc add message to an existing conversation
 //@access private
 
-router.post('/', auth, (req, res) => {
-  let from = mongoose.Types.ObjectId(req.user.id);
-  let to = mongoose.Types.ObjectId(req.body.to);
+router.post('/', auth, async (req, res) => {
+  try {
+    const recipients = req.body;
 
-  Conversation.findOneAndUpdate(
-    {
-      recipients: {
-        $all: [{ $elemMatch: { $eq: from } }, { $elemMatch: { $eq: to } }],
-      },
-    },
-    {
-      recipients: [req.user.id, req.body.to],
-      lastMessage: req.body.body,
-      date: Date.now(),
-    },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
-    function (err, conversation) {
-      if (err) {
-        console.log(err);
+    const conversation = await Conversation.findOne({ recipients });
 
-        res.end(JSON.stringify({ message: 'error' }));
-      } else {
-        let message = new Message({
-          conversation: conversation._id,
-          to: req.body.to,
-          from: req.user.id,
-          body: req.body.body,
-        });
+    if (conversation) return res.status(400).end();
 
-        
-        message.save((err) => {
-          if (err) {
-            console.error(err.message);
-            res.status(500).send('server error');
-          } else {
-            res.setHeader('Content-Type', 'application/json');
-            res.end(
-              JSON.stringify({
-                message: 'Success',
-                conversationId: conversation._id,
-              })
-            );
-          }
-        });
-      }
-    }
-  );
+    const newConversation = new Conversation({ recipients });
+    await newConversation.save();
+
+    const conversationInfo = {
+      conversationId: newConversation._id,
+      lastMessageRead: 0,
+    };
+    await User.updateMany(
+      { username: { $in: recipients } },
+      { $addToSet: { conversations: conversationInfo } }
+    );
+
+    res.end();
+  } catch (err) {
+    res.status(500).end();
+  }
 });
 
 module.exports = router;
