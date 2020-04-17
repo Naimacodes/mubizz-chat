@@ -92,7 +92,7 @@ router.post('/', auth, async (req, res) => {
 router.post('/messages', auth, async (req, res) => {
   const io = req.app.locals.io;
   try {
-    const { _id, message } = req.body;
+    const { _id, message, date } = req.body;
 
     await Conversation.findByIdAndUpdate(
       _id,
@@ -101,7 +101,7 @@ router.post('/messages', auth, async (req, res) => {
     );
 
     // emits message to connected clients.
-    const data = { _id, message };
+    const data = { _id, message, date  };
     io.emit('message', data);
 
     res.setHeader('Content-Type', 'application/json');

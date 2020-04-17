@@ -15,7 +15,10 @@ const ConversationSchema = new Schema({
         type: String,
         required: true,
       },
-      date: Date,
+      date:{
+        type: Date,
+        required: true
+      } 
     },
   ],
 });
