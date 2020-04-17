@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const ConversationSchema = new Schema({
   recipients: [String],
+<<<<<<< HEAD
 
   messages: [
     {
@@ -18,6 +19,18 @@ const ConversationSchema = new Schema({
       date: Date,
     },
   ],
+=======
+  lastMessage: {
+    type: String,
+  },
+  messages: [
+    {
+      user: String,
+      body: String,
+      date: Date.now()
+    }
+  ]
+>>>>>>> refs/remotes/origin/master
 });
 
 
