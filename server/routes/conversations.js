@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Conversation = require('../models/Conversation');
-<<<<<<< HEAD
 const User = require('../models/User');
 
 //test route
@@ -10,13 +9,10 @@ router.get('/test', (req, res) => {
   res.send('test route');
 });
 
-=======
->>>>>>> refs/remotes/origin/master
 
 //@route api/messages
 //@desc get list of all the conversations of a user
 //@access private
-<<<<<<< HEAD
 
 router.get('/', auth, async (req, res) => {
   try {
@@ -26,13 +22,6 @@ router.get('/', auth, async (req, res) => {
     const user = await User.findOne({ userid });
 
     // Get user's conversations.
-=======
-router.get('/', auth, async (req, res) => {
-  try {
-    const { user } = req;
-    const user = await User.findOne({ user });
-
->>>>>>> refs/remotes/origin/master
     const conversationIds = user.conversations.map(
       (conversation) => conversation.conversationId
     );
@@ -40,7 +29,6 @@ router.get('/', auth, async (req, res) => {
       _id: { $in: conversationIds },
     });
 
-<<<<<<< HEAD
     const conversationsWithInfo = conversations.map((conversation, index) => ({
       ...conversation._doc,
       lastMessageRead: user.conversations[index].lastMessageRead,
@@ -62,23 +50,6 @@ router.post('/', auth, async (req, res) => {
   const io = req.app.locals.io;
   try {
     const recipients = req.body.recipients;
-=======
-    res.json(conversations);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('server error');
-  }
-});
-
-//@route api/messages/conversations
-//@desc add message to an existing conversation
-//@access private
-
-router.post('/', auth, async (req, res) => {
-  try {
-    const recipients = req.body;
-
->>>>>>> refs/remotes/origin/master
     const conversation = await Conversation.findOne({ recipients });
 
     if (conversation) return res.status(400).end();
@@ -91,7 +62,6 @@ router.post('/', auth, async (req, res) => {
       lastMessageRead: 0,
     };
     await User.updateMany(
-<<<<<<< HEAD
       { name: { $in: recipients } },
       { $addToSet: { conversations: conversationInfo } }
     );
@@ -111,19 +81,10 @@ router.post('/', auth, async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-=======
-      { username: { $in: recipients } },
-      { $addToSet: { conversations: conversationInfo } }
-    );
-
-    res.end();
-  } catch (err) {
->>>>>>> refs/remotes/origin/master
     res.status(500).end();
   }
 });
 
-<<<<<<< HEAD
 // @route   POST /api/conversations/messages
 // @access  private
 // Add a message to a specific conversation and emit message to connected clients.
@@ -155,6 +116,4 @@ router.post('/messages', auth, async (req, res) => {
   }
 });
 
-=======
->>>>>>> refs/remotes/origin/master
 module.exports = router;
