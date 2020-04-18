@@ -15,12 +15,12 @@ router.get('/test', (req, res) => {
 //@access private
 
 router.get('/', auth, async (req, res) => {
+  
   try {
-    const { userid } = req.user.id;
-
-    // Get user.
-    const user = await User.findOne({ userid });
-
+    
+    
+    let user = await User.findOne({_id : req.user.id});
+    // console.log(user);
     // Get user's conversations.
     const conversationIds = user.conversations.map(
       (conversation) => conversation.conversationId
@@ -28,6 +28,7 @@ router.get('/', auth, async (req, res) => {
     const conversations = await Conversation.find({
       _id: { $in: conversationIds },
     });
+    
 
     const conversationsWithInfo = conversations.map((conversation, index) => ({
       ...conversation._doc,
