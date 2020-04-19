@@ -16,7 +16,7 @@ const Message = () => {
             <div className='incoming_msg_img'>
               <img
                 src='https://s3.us-east-2.amazonaws.com/upload-icon/uploads/icons/png/19339625881548233621-256.png'
-                alt='sunil'
+                alt='icon'
               />
             </div>
             <div className='received_msg'>
@@ -43,7 +43,7 @@ const Message = () => {
             <div className='incoming_msg_img'>
               <img
                 src='https://s3.us-east-2.amazonaws.com/upload-icon/uploads/icons/png/19339625881548233621-256.png'
-                alt='sunil'
+                alt='icon'
               />
             </div>
             <div className='received_msg'>

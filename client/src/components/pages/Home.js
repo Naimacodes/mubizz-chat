@@ -22,7 +22,7 @@ const Home = () => {
           <Conversations user= {user}></Conversations>
         </div>
 
-        <Messages></Messages>
+        <Messages user={user}></Messages>
       </div>
     </div>
   );
