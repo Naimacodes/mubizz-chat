@@ -103,7 +103,7 @@ const ChatState = (props) => {
         users: state.users,
         contacts: state.contacts,
         conversations: state.conversations,
-        currentConversation: state.currentConversation,
+        current: state.current,
         filtered: state.filtered,
         conversation: state.conversation,
         recipient: state.recipient,

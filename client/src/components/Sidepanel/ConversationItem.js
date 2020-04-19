@@ -10,6 +10,7 @@ const ConversationItem = ({conversation, user }) => {
   const {
     loading,
     setCurrentConversation,
+    current
   } = chatContext;
 
   const handleRecipient = (recipients) => {
@@ -23,22 +24,29 @@ const ConversationItem = ({conversation, user }) => {
 
   let length = conversation.messages.length;
   let newDate;
+
   return (
     <Fragment>
       {conversation !== null && !loading ? (
         <div
           className='chat_list '
-          onClick={() => setCurrentConversation(conversation)}
+          
+          
         >
+          { console.log(current)}
           {/* need to toggle active_chat class on click later */}
-          <div className='chat_people'>
+          <div className='chat_people'
+          >
             <div className='chat_img'>
               <img
                 src='https://s3.us-east-2.amazonaws.com/upload-icon/uploads/icons/png/19339625881548233621-256.png'
                 alt='icon'
               />
             </div>
-            <div className='chat_ib'>
+            <div className='chat_ib'
+            onClick={() => setCurrentConversation(conversation)
+           
+            }>
               <h5>
                  {handleRecipient(conversation.recipients)}
                   

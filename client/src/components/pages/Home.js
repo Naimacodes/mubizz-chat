@@ -3,10 +3,11 @@ import AuthContext from '../../context/auth/authContext';
 import Messages from '../Sidepanel/Messages';
 import Conversations from '../Sidepanel/Conversations';
 import SearchConversation from '../Sidepanel/SearchConversation';
+import Input from '../Input/Input';
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const {user} = authContext
+  const { user } = authContext;
 
   useEffect(() => {
     authContext.loadUser();
@@ -19,7 +20,7 @@ const Home = () => {
         <div className='inbox_people'>
           <SearchConversation user={user} />
 
-          <Conversations user= {user}></Conversations>
+          <Conversations user={user}></Conversations>
         </div>
 
         <Messages user={user}></Messages>
