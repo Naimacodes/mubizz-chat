@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import ChatContext from '../../context/chat/chatContext';
 
 
-const SearchConversation = () => {
+const SearchConversation = ({user}) => {
   const chatContext = useContext(ChatContext);
   const text = useRef('');
 
@@ -15,7 +15,7 @@ const SearchConversation = () => {
   });
 
   const onChange = (e) => {
-    if (text.current.value !== '') {
+    if (text.current.value !== '' && user !== null ) {
       filterConversation(e.target.value);
     } else {
       clearFilter();

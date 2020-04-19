@@ -4,12 +4,13 @@ import ConversationItem from './ConversationItem';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 
-const Conversations = () => {
+const Conversations = ({ user }) => {
   const chatContext = useContext(ChatContext);
   const { getConversations, conversations, filtered, loading } = chatContext;
   useEffect(() => {
     getConversations();
   }, []);
+
 
   if (conversations !== null && conversations.length === 0 && !loading) {
     return (
@@ -32,12 +33,16 @@ const Conversations = () => {
                 <ConversationItem
                   key={conversation._id}
                   conversation={conversation}
+                  conversations={conversations}
+                  user={user}
                 />
               ))
             : conversations.map((conversation) => (
                 <ConversationItem
                   key={conversation._id}
                   conversation={conversation}
+                  conversations={conversations}
+                  user={user}
                 />
               ))}
         </div>

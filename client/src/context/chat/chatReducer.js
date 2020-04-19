@@ -6,7 +6,7 @@ import {
   ADD_PARTICIPANTS,
   FILTER_CONVERSATION,
   CLEAR_FILTER,
-  SET_CURRENT_CONVERSATION
+  SET_CURRENT_CONVERSATION,
 } from '../types';
 
 export default (state, action) => {
@@ -15,7 +15,7 @@ export default (state, action) => {
       return {
         ...state,
         conversations: action.payload,
-        loading: false
+        loading: false,
       };
     case GET_CONVERSATION_MSGS:
       return {
@@ -37,24 +37,27 @@ export default (state, action) => {
         ...state,
         error: action.payload,
       };
-      case SET_CURRENT_CONVERSATION:
-        return {
-          ...state,
-          current: action.payload
-        };
+    case SET_CURRENT_CONVERSATION:
+      return {
+        ...state,
+        current: action.payload,
+        loading: false,
+      };
     case FILTER_CONVERSATION:
       return {
         ...state,
-        filtered: state.conversations.filter(conversation => {
+        filtered: state.conversations.filter((conversation) => {
           const regex = new RegExp(`${action.payload}`, 'gi');
-          return conversation.recipientObj[0].name.match(regex) 
+          for (let i = 0; i < conversation.recipients.length; i++) {
+            return conversation.recipients[i].match(regex);
+          }
         }),
       };
-      case CLEAR_FILTER:
-        return {
-          ...state,
-          filtered: null
-        };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null,
+      };
     default:
       return {
         ...state,

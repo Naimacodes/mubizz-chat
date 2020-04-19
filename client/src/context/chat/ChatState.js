@@ -10,19 +10,16 @@ import {
   ADD_PARTICIPANTS,
   SET_CURRENT_CONVERSATION,
   FILTER_CONVERSATION,
-  CLEAR_FILTER
+  CLEAR_FILTER,
 } from '../types';
 
 const ChatState = (props) => {
   const initialState = {
-    users: null,
     contacts: null,
-    conversations: null,
+    conversations: [],
     conversation: null,
     currentConversation: null,
     filtered: null,
-    
-    
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -31,15 +28,12 @@ const ChatState = (props) => {
   //gets all the conversations of a user
   const getConversations = async () => {
     try {
-      const res = await axios.get('/api/messages/conversations');
-      
+      const res = await axios.get('/api/conversations');
 
       dispatch({
         type: GET_CONVERSATIONS,
         payload: res.data,
-        
-      })
-      
+      });
     } catch (err) {
       dispatch({
         type: CONVERSATION_ERROR,
@@ -84,29 +78,24 @@ const ChatState = (props) => {
     }
   };
 
-
-
   //SET CURRENT CONVERSATION
-  const setCurrentConversation = conversation => {
+  const setCurrentConversation = (conversation) => {
     dispatch({
       type: SET_CURRENT_CONVERSATION,
       payload: conversation,
     });
-};
+  };
 
+  //FILTER_CONVERSATION,
 
-//FILTER_CONVERSATION,
+  const filterConversation = (text) => {
+    dispatch({ type: FILTER_CONVERSATION, payload: text });
+  };
 
-const filterConversation = text => {
-  dispatch({ type: FILTER_CONVERSATION, payload: text });
-};
-
-//CLEAR_FILTER
-const clearFilter = () => {
-  dispatch({ type: CLEAR_FILTER });
-};
-
-
+  //CLEAR_FILTER
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
 
   return (
     <ChatContext.Provider
@@ -116,13 +105,14 @@ const clearFilter = () => {
         conversations: state.conversations,
         currentConversation: state.currentConversation,
         filtered: state.filtered,
-        conversation : state.conversation,
+        conversation: state.conversation,
+        recipient: state.recipient,
         getConversations,
         getConversationMsgs,
         sendConversationMsgs,
         setCurrentConversation,
         filterConversation,
-        clearFilter
+        clearFilter,
       }}
     >
       {props.children}

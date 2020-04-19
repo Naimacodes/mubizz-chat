@@ -6,6 +6,7 @@ import SearchConversation from '../Sidepanel/SearchConversation';
 
 const Home = () => {
   const authContext = useContext(AuthContext);
+  const {user} = authContext
 
   useEffect(() => {
     authContext.loadUser();
@@ -16,9 +17,9 @@ const Home = () => {
     <div className='messaging'>
       <div className='inbox_msg'>
         <div className='inbox_people'>
-          <SearchConversation />
+          <SearchConversation user={user} />
 
-          <Conversations></Conversations>
+          <Conversations user= {user}></Conversations>
         </div>
 
         <Messages></Messages>
