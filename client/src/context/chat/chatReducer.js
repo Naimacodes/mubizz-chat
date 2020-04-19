@@ -1,6 +1,5 @@
 import {
   GET_CONVERSATIONS,
-  GET_CONVERSATION_MSGS,
   SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
@@ -17,15 +16,10 @@ export default (state, action) => {
         conversations: action.payload,
         loading: false,
       };
-    case GET_CONVERSATION_MSGS:
-      return {
-        ...state,
-        something: action.payload,
-      };
     case SEND_CONVERSATION_MSGS:
       return {
         ...state,
-        something: action.payload,
+        message: action.payload,
       };
     case CONVERSATION_ERROR:
       return {
@@ -51,6 +45,7 @@ export default (state, action) => {
           for (let i = 0; i < conversation.recipients.length; i++) {
             return conversation.recipients[i].match(regex);
           }
+          return null
         }),
       };
     case CLEAR_FILTER:

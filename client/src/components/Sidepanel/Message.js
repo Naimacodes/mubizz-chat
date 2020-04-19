@@ -4,10 +4,10 @@ import ReactEmoji from 'react-emoji';
 // import ChatContext from '../../context/chat/chatContext';
 import moment from 'moment';
 
-const Message = ({ user, message, current }) => {
+const Message = ({ user, message, conversation, current }) => {
   // const chatContext = useContext(ChatContext);
   // const { current} = chatContext;
-  console.log(current);
+  
   return (
     <Fragment>
       <div className='incoming_msg'>

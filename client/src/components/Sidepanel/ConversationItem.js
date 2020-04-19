@@ -33,7 +33,7 @@ const ConversationItem = ({conversation, user }) => {
           
           
         >
-          { console.log(current)}
+          
           {/* need to toggle active_chat class on click later */}
           <div className='chat_people'
           >

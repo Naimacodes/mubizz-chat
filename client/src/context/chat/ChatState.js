@@ -4,7 +4,6 @@ import ChatContext from './chatContext';
 import axios from 'axios';
 import {
   GET_CONVERSATIONS,
-  GET_CONVERSATION_MSGS,
   SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
@@ -20,6 +19,7 @@ const ChatState = (props) => {
     conversation: null,
     currentConversation: null,
     filtered: null,
+    message : null
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -42,36 +42,12 @@ const ChatState = (props) => {
     }
   };
 
-  //GET_CONVERSATION_MSGS
-  //get all the messages from a conversation
-  const getConversationMsgs = async (id) => {
-    try {
-      const res = await axios.get(
-        `/api/messages/conversations/query?userId=${id}`
-      );
 
-      dispatch({
-        type: GET_CONVERSATION_MSGS,
-        payload: res.data,
-      });
-    } catch (err) {
-      dispatch({
-        type: CONVERSATION_ERROR,
-        payload: err.response.msg,
-      });
-    }
-  };
 
   //SEND_CONVERSATION_MSGS
-  const sendConversationMsgs = async (id, message) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        body: JSON.stringify({ to: id, body: message }),
-      },
-    };
+  const sendConversationMsgs = async (_id, message) => {
     try {
-      const res = await axios.post('/api/messages', id, message, config);
+      const res = await axios.post('/api/conversations/messages', _id, message);
       dispatch({ type: SEND_CONVERSATION_MSGS, payload: res.data });
     } catch (error) {
       dispatch({ type: CONVERSATION_ERROR, payload: error.response.msg });
@@ -85,6 +61,8 @@ const ChatState = (props) => {
       payload: conversation,
     });
   };
+
+  
 
   //FILTER_CONVERSATION,
 
@@ -107,8 +85,8 @@ const ChatState = (props) => {
         filtered: state.filtered,
         conversation: state.conversation,
         recipient: state.recipient,
+        message: state.message,
         getConversations,
-        getConversationMsgs,
         sendConversationMsgs,
         setCurrentConversation,
         filterConversation,

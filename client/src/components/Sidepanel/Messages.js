@@ -1,4 +1,4 @@
-import React, { useContext, Fragment, useEffect } from 'react';
+import React, { useContext, Fragment} from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from './Message';
 import ChatContext from '../../context/chat/chatContext';
@@ -30,7 +30,7 @@ const Messages = ({ user }) => {
             <Spinner />
           )}
         </div>
-        <Input></Input>
+        <Input current={current} user={user}></Input>
       </div>
     </Fragment>
   );
