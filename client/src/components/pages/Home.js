@@ -3,7 +3,7 @@ import AuthContext from '../../context/auth/authContext';
 import Messages from '../Sidepanel/Messages';
 import Conversations from '../Sidepanel/Conversations';
 import SearchConversation from '../Sidepanel/SearchConversation';
-import Input from '../Input/Input';
+
 
 const Home = () => {
   const authContext = useContext(AuthContext);

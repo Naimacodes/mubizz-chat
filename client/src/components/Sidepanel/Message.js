@@ -22,7 +22,7 @@ const Message = ({ user, message, current }) => {
             <div className='received_msg'>
               <div className='received_withd_msg'>
                 <p>{message.text}</p>
-                <span className='time_date'> {message.date}</span>
+                <span className='time_date'> {moment(`${message.date}`).format('MM/DD/YYYY')}</span>
               </div>
             </div>{' '}
           </Fragment>

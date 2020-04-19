@@ -3,6 +3,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from './Message';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
+import Input from '../Input/Input';
 
 const Messages = ({ user }) => {
   const chatContext = useContext(ChatContext);
@@ -29,6 +30,7 @@ const Messages = ({ user }) => {
             <Spinner />
           )}
         </div>
+        <Input></Input>
       </div>
     </Fragment>
   );
