@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/routing/Privateroute';
 import Navbar from './components/layout/Navbar';
@@ -16,6 +16,7 @@ import './Chat-app.css';
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
+
 
 function App() {
   return (

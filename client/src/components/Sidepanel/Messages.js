@@ -1,5 +1,5 @@
 import React, { useContext, Fragment} from 'react';
-import ScrollToBottom from 'react-scroll-to-bottom';
+// import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from './Message';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';

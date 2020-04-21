@@ -47,8 +47,9 @@ const ChatState = (props) => {
   //SEND_CONVERSATION_MSGS
   const sendConversationMsgs = async (_id, message) => {
     try {
-      const res = await axios.post('/api/conversations/messages', _id, message);
-      dispatch({ type: SEND_CONVERSATION_MSGS, payload: res.data });
+      const data = {_id, message}
+      const res = await axios.post('/api/conversations/messages', data);
+    
     } catch (error) {
       dispatch({ type: CONVERSATION_ERROR, payload: error.response.msg });
     }

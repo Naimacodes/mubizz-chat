@@ -1,10 +1,9 @@
-import React, { useEffect, useContext, Fragment } from 'react';
-// import './Message.css';
-import ReactEmoji from 'react-emoji';
+import React, { Fragment } from 'react';
+// import ReactEmoji from 'react-emoji';
 // import ChatContext from '../../context/chat/chatContext';
 import moment from 'moment';
 
-const Message = ({ user, message, conversation, current }) => {
+const Message = ({ user, message }) => {
   // const chatContext = useContext(ChatContext);
   // const { current} = chatContext;
   

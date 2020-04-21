@@ -124,7 +124,7 @@ i {
 }
 .received_withd_msg p {
   background: #ebebeb none repeat scroll 0 0;
-  border-radius: 3px;
+  border-radius: 5px;
   color: #646464;
   font-size: 14px;
   margin: 0;
@@ -148,7 +148,7 @@ i {
 
 .sent_msg p {
   background: #7070d8 none repeat scroll 0 0;
-  border-radius: 3px;
+  border-radius: 5px;
   font-size: 14px;
   margin: 0;
   color: #fff;

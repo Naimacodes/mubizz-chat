@@ -1,9 +1,15 @@
-import React, { useContext, useState, Fragment } from 'react';
+import React, { useContext, useState} from 'react';
 import ChatContext from '../../context/chat/chatContext';
+import io from 'socket.io-client';
 
 const Input = ({ user, current }) => {
+  
+  const socketUrl = 'http://localhost:5000/api/conversations/messages';
+ 
+  const socket = io(socketUrl);
+  
   const chatContext = useContext(ChatContext);
-  const {loading, sendConversationMsgs } = chatContext;
+  const { sendConversationMsgs } = chatContext;
 
   const [text, setText] = useState('');
 
@@ -11,20 +17,18 @@ const Input = ({ user, current }) => {
     setText(e.target.value);
   };
 
-  console.log(current);
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (text === '') {
       return null;
-    } else {
+    } else if (text !== '' && current) {
       const message = {
-        _id :current._id,
         name: user.name,
         text: text,
         date: Date.now(),
       };
-      sendConversationMsgs(current._id, message);
+      socket.emit('message', sendConversationMsgs(current._id, message));
       setText('');
     }
   };

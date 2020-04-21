@@ -10,7 +10,6 @@ const ConversationItem = ({conversation, user }) => {
   const {
     loading,
     setCurrentConversation,
-    current
   } = chatContext;
 
   const handleRecipient = (recipients) => {
@@ -23,7 +22,7 @@ const ConversationItem = ({conversation, user }) => {
   };
 
   let length = conversation.messages.length;
-  let newDate;
+
 
   return (
     <Fragment>
