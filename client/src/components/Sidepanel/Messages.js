@@ -1,9 +1,10 @@
-import React, { useContext, Fragment } from 'react';
-// import ScrollToBottom from 'react-scroll-to-bottom';
+import React, { useContext, Fragment, useRef, useEffect } from 'react';
+
 import Message from './Message';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
-import Input from '../Input/Input';
+import Input from '../Input/Input'
+import ScrollToBottom from 'react-scroll-to-bottom'
 
 const Messages = ({ user }) => {
   const chatContext = useContext(ChatContext);
@@ -13,7 +14,7 @@ const Messages = ({ user }) => {
   return (
     <Fragment>
       <div className='mesgs'>
-        <div className='msg_history'>
+        <ScrollToBottom className='msg_history'>
           {current && current !== null && !loading ? (
             <div>
               {' '}
@@ -29,7 +30,7 @@ const Messages = ({ user }) => {
           ) : (
             <Spinner />
           )}
-        </div>
+        </ScrollToBottom>
         <Input current={current} user={user}></Input>
       </div>
     </Fragment>

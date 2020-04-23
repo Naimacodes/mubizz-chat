@@ -12,34 +12,39 @@ const Home = () => {
   const { user } = authContext;
   const chatContext = useContext(ChatContext);
   const { getConversations, current, addMessage } = chatContext;
-
+  const [copyConversations, setcopyConversations] = useState([]);
 
   // On mount, get user data from server.
-  useEffect((current) => {
-    getConversations();
+  useEffect(() => {
+    getConversations().then((res) => {
+      setcopyConversations(res);
+    });
 
     return () => socket.disconnect();
-  }, [getConversations]);
+  }, [copyConversations]);
 
   useEffect(() => {
     authContext.loadUser();
     // eslint-disable-next-line
   }, []);
 
-  const handleNewMessage = async (data, addMessage) => {
-    // Conversation id and message.
 
-    const { _id, message } = data;
+  // const handleNewMessage = async (data, addMessage) => {
+  //   // Conversation id and message.
 
-    if (current && _id === current._id && message) {
-      await addMessage(_id, message);
-    }
-  };
+  //   const { _id, message } = data;
 
-  // On incoming message, add message to client state.
-  socket.on('message', (data) => {
-    handleNewMessage(data, addMessage);
-  });
+  //   if (current && _id === current._id && message) {
+  //     await addMessage(_id, message);
+  //   }
+  // };
+
+  // // On incoming message, add message to client state.
+
+  // useEffect
+  // socket.on('message', (data) => {
+  //   handleNewMessage(data, addMessage);
+  // });
 
   return (
     <div className='messaging'>

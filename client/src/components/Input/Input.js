@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import ChatContext from '../../context/chat/chatContext';
-import io from 'socket.io-client';
+
 
 const Input = ({ user, current }) => {
   const chatContext = useContext(ChatContext);
