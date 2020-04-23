@@ -1,24 +1,27 @@
 {
-  "name": "mubizz-chat",
+  "name": "server",
   "version": "1.0.0",
-  "description": "a chat app using ReactJs, Node, Express and Socket.io",
-  "main": "index.js",
-  "dependencies": {
-    "concurrently": "^5.1.0"
-  },
-  "devDependencies": {},
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "dev": "concurrently \"cd server && npm run start\" \"cd client && npm run start\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Naimacodes/mubizz-chat.git"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Naimacodes/mubizz-chat/issues"
-  },
-  "homepage": "https://github.com/Naimacodes/mubizz-chat#readme"
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7",
+    "nodemon": "^2.0.2",
+    "request": "^2.88.2",
+    "socket.io": "^2.3.0"
+  }
 }

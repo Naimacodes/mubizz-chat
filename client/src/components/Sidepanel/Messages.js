@@ -1,4 +1,4 @@
-import React, { useContext, Fragment} from 'react';
+import React, { useContext, Fragment } from 'react';
 // import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from './Message';
 import ChatContext from '../../context/chat/chatContext';
@@ -8,7 +8,7 @@ import Input from '../Input/Input';
 const Messages = ({ user }) => {
   const chatContext = useContext(ChatContext);
   const { current, loading } = chatContext;
-  // console.log(current);
+
 
   return (
     <Fragment>

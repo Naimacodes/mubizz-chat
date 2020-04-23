@@ -1,40 +1,34 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import ChatContext from '../../context/chat/chatContext';
 import io from 'socket.io-client';
 
 const Input = ({ user, current }) => {
-  
-  const socketUrl = 'http://localhost:5000/api/conversations/messages';
- 
-  const socket = io(socketUrl);
-  
   const chatContext = useContext(ChatContext);
-  const { sendConversationMsgs } = chatContext;
+  const { addMessageToServer, addMessage} = chatContext;
 
   const [text, setText] = useState('');
 
   const onChange = (e) => {
     setText(e.target.value);
   };
-
-
   const onSubmit = (e) => {
     e.preventDefault();
     if (text === '') {
       return null;
-    } else if (text !== '' && current) {
+    } else if (text !== '' && current && current !== null) {
       const message = {
         name: user.name,
         text: text,
         date: Date.now(),
       };
-      socket.emit('message', sendConversationMsgs(current._id, message));
+
+      addMessageToServer(current._id, message)
+      
       setText('');
     }
   };
 
   return (
-    
     <form className='type_msg' onSubmit={onSubmit}>
       <div className='input_msg_write'>
         <input
@@ -50,8 +44,6 @@ const Input = ({ user, current }) => {
         </button>
       </div>
     </form>
-
-
   );
 };
 

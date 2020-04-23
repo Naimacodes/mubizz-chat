@@ -1,7 +1,8 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, useState,  useEffect, Fragment } from 'react';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 import moment from 'moment';
+
 
 const ConversationItem = ({conversation, user }) => {
 
@@ -9,7 +10,7 @@ const ConversationItem = ({conversation, user }) => {
   const chatContext = useContext(ChatContext);
   const {
     loading,
-    setCurrentConversation,
+    setCurrentConversation, getConversations
   } = chatContext;
 
   const handleRecipient = (recipients) => {

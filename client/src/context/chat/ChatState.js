@@ -7,19 +7,20 @@ import {
   SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
+  ADD_MESSAGE,
   SET_CURRENT_CONVERSATION,
   FILTER_CONVERSATION,
   CLEAR_FILTER,
+  UPDATE_LAST_MESSAGE_READ
 } from '../types';
 
 const ChatState = (props) => {
   const initialState = {
-    contacts: null,
+    contacts: [],
     conversations: [],
-    conversation: null,
     currentConversation: null,
     filtered: null,
-    message : null
+    messages : []
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
@@ -28,7 +29,7 @@ const ChatState = (props) => {
   //gets all the conversations of a user
   const getConversations = async () => {
     try {
-      const res = await axios.get('/api/conversations');
+      const res = await axios.get('api/conversations');
 
       dispatch({
         type: GET_CONVERSATIONS,
@@ -44,8 +45,8 @@ const ChatState = (props) => {
 
 
 
-  //SEND_CONVERSATION_MSGS
-  const sendConversationMsgs = async (_id, message) => {
+  //SEND_CONVERSATION_MSGS to the server
+  const addMessageToServer = async (_id, message) => {
     try {
       const data = {_id, message}
       const res = await axios.post('/api/conversations/messages', data);
@@ -54,6 +55,24 @@ const ChatState = (props) => {
       dispatch({ type: CONVERSATION_ERROR, payload: error.response.msg });
     }
   };
+
+
+
+
+
+
+const addMessage = (_id, message) => {
+  return dispatch => dispatch({type: ADD_MESSAGE, payload: _id, message});
+};  
+
+
+
+
+
+
+
+
+
 
   //SET CURRENT CONVERSATION
   const setCurrentConversation = (conversation) => {
@@ -86,9 +105,10 @@ const ChatState = (props) => {
         filtered: state.filtered,
         conversation: state.conversation,
         recipient: state.recipient,
-        message: state.message,
+        messages: state.messages,
         getConversations,
-        sendConversationMsgs,
+        addMessageToServer,
+        addMessage,
         setCurrentConversation,
         filterConversation,
         clearFilter,

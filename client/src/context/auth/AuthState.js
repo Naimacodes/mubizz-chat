@@ -36,7 +36,7 @@ const AuthState = props => {
     }
     try {
       //checks if you're a valid user
-      const res = await axios.get('/api/auth/');
+      const res = await axios.get('api/auth/');
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (error) {
       dispatch({ type: AUTH_ERROR, payload: error.response.data.msg  });
@@ -52,7 +52,7 @@ const AuthState = props => {
       }
     };
     try {
-      const res = await axios.post('/api/users', formData, config);
+      const res = await axios.post('api/users', formData, config);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       // the response is going to be the token
       loadUser();
@@ -71,7 +71,7 @@ const AuthState = props => {
       }
     };
     try {
-      const res = await axios.post('/api/auth', formData, config);
+      const res = await axios.post('api/auth', formData, config);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       // the response is going to be the token
       loadUser();
