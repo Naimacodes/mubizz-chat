@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
+import './Register.css'
 
 const Register = props => {
   const alertContext = useContext(AlertContext);
@@ -43,12 +44,12 @@ const Register = props => {
 
   return (
     <div className='form-container'>
-      <h1>
-        Account <span className='text-primary'>Register</span>
+      <h1 className='text-color'>
+        Account <span className='register'>Register</span>
       </h1>
       <form onSubmit={onSubmit}>
         <div className='form-group'>
-          <label htmlFor='name'>Name</label>
+          <label htmlFor='name' className='label'>Name</label>
           <input
             type='text'
             name='name'
@@ -59,7 +60,7 @@ const Register = props => {
         </div>
 
         <div className='form-group'>
-          <label htmlFor='email'>Email</label>
+          <label htmlFor='email' className='label'>Email</label>
           <input
             type='email'
             name='email'
@@ -70,7 +71,7 @@ const Register = props => {
         </div>
 
         <div className='form-group'>
-          <label htmlFor='password'>Password</label>
+          <label htmlFor='password' className='label'>Password</label>
           <input
             type='password'
             name='password'
@@ -82,7 +83,7 @@ const Register = props => {
         </div>
 
         <div className='form-group'>
-          <label htmlFor='password2'>Password2</label>
+          <label htmlFor='password2' className='label'>Password2</label>
           <input
             type='password'
             name='password2'

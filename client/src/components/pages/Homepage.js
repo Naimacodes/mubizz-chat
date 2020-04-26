@@ -3,7 +3,6 @@ import AuthContext from '../../context/auth/authContext';
 import Home from './Home'
 
 
-
 const Homepage = () => {
 
 

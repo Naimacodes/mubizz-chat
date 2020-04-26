@@ -6,8 +6,9 @@ import {
   ADD_PARTICIPANTS,
   FILTER_CONVERSATION,
   CLEAR_FILTER,
+  GET_CURRENT_CONVERSATION,
   SET_CURRENT_CONVERSATION,
-  UPDATE_LAST_MESSAGE_READ
+  UPDATE_LAST_MESSAGE_READ,
 } from '../types';
 
 const compare = (c1, c2) => {
@@ -48,6 +49,13 @@ export default (state, action) => {
         current: action.payload,
         loading: false,
       };
+
+    case GET_CURRENT_CONVERSATION:
+      return {
+        ...state,
+        conversation: action.payload,
+        loading: false,
+      };
     case FILTER_CONVERSATION:
       return {
         ...state,
@@ -65,17 +73,24 @@ export default (state, action) => {
         filtered: null,
       };
     case ADD_MESSAGE:
-      return state
-        .map((conversation) => {
-          if (conversation._id === action._id) {
-            return {
-              ...conversation,
-              messages: [...conversation.messages, action.message],
-            };
-          }
-          return conversation;
-        })
-        .sort(compare);
+      return {
+        ...state,
+        conversation: state.conversations
+          .map((conversation) => {
+            if (conversation._id === action._id) {
+              return {
+                ...conversation,
+                messages: [...conversation.messages, action.message],
+                
+              };
+            }
+          })
+          .sort(compare),
+          current: [...state.current.messages, action.message].sort(compare),
+            
+          
+      };
+
     case UPDATE_LAST_MESSAGE_READ:
       return state.map((conversation) => {
         if (conversation._id === action._id) {

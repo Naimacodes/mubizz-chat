@@ -86,14 +86,11 @@ router.post('/', auth, async (req, res) => {
 // Add a message to a specific conversation and emit message to connected clients.
 
 router.post('/messages', auth, async (req, res) => {
-     // grab the id from the request
-  const socketId = req.body.message.socketId
 
   // get the io object ref
   const io = req.app.get('socketio') 
 
-  // create a ref to the client socket
-  const senderSocket = io.sockets.connected[socketId]
+
   try {
     const { _id, message } = req.body;
 
@@ -118,5 +115,36 @@ router.post('/messages', auth, async (req, res) => {
     res.status(400).end();
   }
 });
+
+
+
+// @route   get /api/conversations/messages/conversation
+// @access  private
+// find a specific conversation
+
+router.get('/messages/conversation', auth, async (req, res) => {
+
+  try {
+    const { _id} = req.body;
+
+   const conversation = await Conversation.findById(
+      _id
+    )
+
+    res.send(conversation)
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(400).end();
+  }
+});
+
+
+
+
+
+
+
+
 
 module.exports = router;

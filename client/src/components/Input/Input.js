@@ -1,16 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ChatContext from '../../context/chat/chatContext';
 
-
-const Input = ({ user, current }) => {
+const Input = ({ user, current, socket }) => {
   const chatContext = useContext(ChatContext);
-  const { addMessageToServer, addMessage} = chatContext;
-
+  const { addMessageToServer } = chatContext;
+  const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
+
+  // console.log(socket);
 
   const onChange = (e) => {
     setText(e.target.value);
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (text === '') {
@@ -21,12 +23,18 @@ const Input = ({ user, current }) => {
         text: text,
         date: Date.now(),
       };
-
-      addMessageToServer(current._id, message)
-      
-      setText('');
+      addMessageToServer(current._id, message);
+        setText('');
+     
+    
+      socket.emit('message', ({ current, message }) => {
+       
+      });
+    
     }
   };
+
+  
 
   return (
     <form className='type_msg' onSubmit={onSubmit}>

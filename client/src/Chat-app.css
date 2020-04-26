@@ -1,5 +1,12 @@
+
+body{
+  background: #35495E;
+  
+  
+}
+
 .container {
-  margin-top: 5%;
+  margin-top: 4%;
   max-width: 70%;
   
 }
@@ -7,16 +14,19 @@ img {
   max-width: 100%;
 }
 .inbox_people {
-  background: #f8f8f8 none repeat scroll 0 0;
+  background: #faf4fa none repeat scroll 0 0;
   float: left;
   overflow: hidden;
   width: 40%;
-  border-right: 1px solid #c4c4c4;
+  border-right: 1px solid #ffffff;
 }
 .inbox_msg {
-  border: 1px solid #c4c4c4;
+  background: #faf4fa;
+  padding: 20px;
+  border-radius: 10px;
   clear: both;
   overflow: hidden;
+  scrollbar-width: none;
 }
 .top_spac {
   margin: 20px 0 0;
@@ -39,7 +49,7 @@ img {
 }
 
 .recent_heading h4 {
-  color: #7070d8;
+  color: #FA7099;
   font-size: 21px;
   margin: auto;
 }
@@ -110,7 +120,7 @@ i {
 }
 
 .active_chat {
-  background: #ebebeb;
+  background: rgb(245, 227, 236);
 }
 
 .incoming_msg_img {
@@ -142,13 +152,15 @@ i {
   width: 57%;
 }
 .mesgs {
+  border-radius: 10px;
+  background: white;
   float: left;
-  padding: 30px 15px 0 25px;
+  padding: 30px 15px 42px 25px;
   width: 60%;
 }
 
 .sent_msg p {
-  background: #7070d8 none repeat scroll 0 0;
+  background: #527ecf none repeat scroll 0 0;
   border-radius: 5px;
   font-size: 14px;
   margin: 0;
@@ -166,7 +178,7 @@ i {
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
+  border: medium;
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
@@ -175,10 +187,11 @@ i {
 
 .type_msg {
   border-top: 1px solid #c4c4c4;
+  width: 100%;
   position: relative;
 }
 .msg_send_btn {
-  background: #7070d8 none repeat scroll 0 0;
+  background: #FA7099 none repeat scroll 0 0;
   border: medium none;
   border-radius: 50%;
   color: #fff;
@@ -193,8 +206,23 @@ i {
 }
 .messaging {
   padding: 0 0 50px 0;
+  
 }
 .msg_history {
   height: 516px;
   overflow-y: auto;
+  scrollbar-width: none;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+  scrollbar-width: none;
+}
+
+.iconOnline{
+
+  padding: 10px
 }

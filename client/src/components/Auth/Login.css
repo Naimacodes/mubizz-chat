@@ -1,6 +1,6 @@
 /*colors*/
 :root {
-  --primary-color: #003699;
+  --primary-color: #4AAE85;
   --light-color: #f4f4f4;
 }
 
@@ -27,6 +27,7 @@ textarea {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 input[type='submit'],
@@ -66,7 +67,7 @@ table th {
 }
 
 .text-primary {
-  color: var(--primary-color);
+  color: #f4f4f4;
 }
 
 
@@ -86,9 +87,23 @@ table th {
 .btn-primary {
   background: var(--primary-color);
   color: #fff;
+  padding: 11px;
+  margin-top: 10px;
 }
 
 .btn-block {
   display: block;
   width: 100%;
+}
+
+.text-color{
+  color: var(--primary-color)
+}
+.label{
+
+  color: white;
+}
+
+.login{
+  color: #E9BA0D
 }

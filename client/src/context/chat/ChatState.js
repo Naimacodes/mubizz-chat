@@ -8,6 +8,7 @@ import {
   CONVERSATION_ERROR,
   ADD_PARTICIPANTS,
   ADD_MESSAGE,
+  GET_CURRENT_CONVERSATION,
   SET_CURRENT_CONVERSATION,
   FILTER_CONVERSATION,
   CLEAR_FILTER,
@@ -19,6 +20,8 @@ const ChatState = (props) => {
     contacts: [],
     conversations: [],
     currentConversation: null,
+    conversation: null,
+    current: null,
     filtered: null,
     messages : []
   };
@@ -44,8 +47,27 @@ const ChatState = (props) => {
   };
 
 
+  const getCurrentConversation =  async (_id) => {
 
-  //SEND_CONVERSATION_MSGS to the server
+    try {
+      const res = await axios.get('api/conversations/messages/conversation');
+
+      dispatch({
+        type: GET_CURRENT_CONVERSATION,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONVERSATION_ERROR,
+        payload: err.response.msg,
+      });
+    }
+    
+  }
+
+
+
+//SEND_CONVERSATION_MSGS to the server
   const addMessageToServer = async (_id, message) => {
     try {
       const data = {_id, message}
@@ -60,14 +82,38 @@ const ChatState = (props) => {
 
 
 
-
+//for socket
 const addMessage = (_id, message) => {
   return dispatch => dispatch({type: ADD_MESSAGE, payload: _id, message});
 };  
 
+// Set given conversation(id)'s last message to read in client state.
+const updateLastMessageRead = (_id, lastMessageRead) => ({
+  type: UPDATE_LAST_MESSAGE_READ,
+  _id,
+  lastMessageRead
+});
 
 
+const updateLastMessageReadToServer = (_id, lastMessageRead) => {
+  return async dispatch => {
+    try {
+      // Update last message read in client state.
+      dispatch(updateLastMessageRead(_id, lastMessageRead));
 
+      // Request server to update last message read.
+      const data = { _id, lastMessageRead };
+      await axios.put(
+        '/api/users/conversations',
+        data,
+        { withCredentials: true }
+      );
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
 
 
@@ -75,10 +121,10 @@ const addMessage = (_id, message) => {
 
 
   //SET CURRENT CONVERSATION
-  const setCurrentConversation = (conversation) => {
+  const setCurrentConversation = (_id) => {
     dispatch({
       type: SET_CURRENT_CONVERSATION,
-      payload: conversation,
+      payload: _id,
     });
   };
 
@@ -98,18 +144,18 @@ const addMessage = (_id, message) => {
   return (
     <ChatContext.Provider
       value={{
-        users: state.users,
         contacts: state.contacts,
         conversations: state.conversations,
         current: state.current,
         filtered: state.filtered,
         conversation: state.conversation,
-        recipient: state.recipient,
         messages: state.messages,
         getConversations,
         addMessageToServer,
         addMessage,
+        getCurrentConversation,
         setCurrentConversation,
+        updateLastMessageReadToServer,
         filterConversation,
         clearFilter,
       }}

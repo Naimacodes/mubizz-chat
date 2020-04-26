@@ -1,50 +1,84 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ChatContext from '../../context/chat/chatContext';
-import io from 'socket.io-client';
+import socket from '../../socketConfig';
 import AuthContext from '../../context/auth/authContext';
 import Messages from '../Sidepanel/Messages';
 import Conversations from '../Sidepanel/Conversations';
 import SearchConversation from '../Sidepanel/SearchConversation';
+import { CLEAR_FILTER, SET_CURRENT_CONVERSATION } from '../../context/types';
 
-const Home = () => {
-  const socket = io('http://localhost:5000/');
+const Home = ({}) => {
   const authContext = useContext(AuthContext);
-  const { user } = authContext;
+  const { user, loading } = authContext;
   const chatContext = useContext(ChatContext);
-  const { getConversations, current, addMessage } = chatContext;
-  const [copyConversations, setcopyConversations] = useState([]);
+  const {
+    getConversations,
+    getCurrentConversation,
+    conversations,
+    conversation,
+    current,
+    addMessage,
+  } = chatContext;
 
-  // On mount, get user data from server.
+  const [usersID, setUsersID] = useState({});
+
   useEffect(() => {
-    getConversations().then((res) => {
-      setcopyConversations(res);
-    });
+    getConversations();
+  }, [getConversations, conversations, current]);
 
-    return () => socket.disconnect();
-  }, [copyConversations]);
+  useEffect(() => {
+    if (current && current !== null && current !== undefined)
+      getCurrentConversation(current._id);
+    console.log(current);
+  }, []);
 
   useEffect(() => {
     authContext.loadUser();
-    // eslint-disable-next-line
   }, []);
 
+  // socket for user connecting to the app
 
-  // const handleNewMessage = async (data, addMessage) => {
-  //   // Conversation id and message.
+  useEffect(() => {
+    if (user && user !== null && user !== undefined) {
+      const username = user.name;
+      const userID = user._id;
 
-  //   const { _id, message } = data;
+      socket.emit('join', { username, userID }, () => {});
+      console.log(username);
 
-  //   if (current && _id === current._id && message) {
-  //     await addMessage(_id, message);
-  //   }
-  // };
+      socket.on('message', (data) => {
+        handleNewMessage(data, addMessage);
+      });
 
-  // // On incoming message, add message to client state.
+      /// DISCONNECT
 
-  // useEffect
-  // socket.on('message', (data) => {
-  //   handleNewMessage(data, addMessage);
-  // });
+      return () => {
+        if (user && user !== null && user !== undefined) {
+          const username = user.name;
+          const userID = user._id;
+          socket.emit('disconnect', { username, userID }, () => {});
+          socket.off();
+        }
+      };
+    }
+  }, [user]);
+
+  useEffect(() => {
+    socket.on('online', (data) => {
+      console.log(data);
+      setUsersID(data);
+    });
+  }, [usersID]);
+
+  const handleNewMessage = async (data, addMessage) => {
+    // Conversation id and message.
+
+    const { _id, message } = data;
+
+    if (current && _id === current._id) {
+      await addMessage(_id, message);
+    }
+  };
 
   return (
     <div className='messaging'>
@@ -52,10 +86,14 @@ const Home = () => {
         <div className='inbox_people'>
           <SearchConversation user={user} />
 
-          <Conversations user={user}></Conversations>
+          <Conversations
+            conversations={conversations}
+            user={user}
+            usersID={usersID}
+          ></Conversations>
         </div>
 
-        <Messages user={user}></Messages>
+        <Messages conversations={conversations} user={user} socket={socket}></Messages>
       </div>
     </div>
   );

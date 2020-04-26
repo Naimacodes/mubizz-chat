@@ -1,6 +1,6 @@
 /*colors*/
 :root {
-  --primary-color: #003699;
+  --primary-color: #4AAE85;
   --light-color: #f4f4f4;
 }
 
@@ -90,4 +90,17 @@ table th {
 .btn-block {
   display: block;
   width: 100%;
+}
+
+
+.text-color{
+  color: var(--primary-color)
+}
+.label{
+
+  color: white;
+}
+
+.register{
+  color: #E9BA0D
 }

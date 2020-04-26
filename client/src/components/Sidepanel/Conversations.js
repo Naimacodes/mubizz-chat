@@ -1,16 +1,13 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, useState, Fragment } from 'react';
 import ConversationItem from './ConversationItem';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 
-const Conversations = ({ user }) => {
-
+const Conversations = ({ user, usersID}) => {
  
 
   const chatContext = useContext(ChatContext);
-  const { conversations, filtered, loading } = chatContext;
-
-
+  const { conversations, filtered, loading, current } = chatContext;
 
 
   if (conversations !== null && conversations.length === 0 && !loading) {
@@ -25,11 +22,12 @@ const Conversations = ({ user }) => {
     );
   }
 
+
   return (
     <Fragment>
-      {conversations !== null && !loading ? (
+      {conversations && conversations !== null && !loading ? (
         <div className='inbox_chat'>
-          {filtered !== null
+          {filtered && filtered !== null
             ? filtered.map((conversation) => (
                 <ConversationItem
                   key={conversation._id}
@@ -44,6 +42,7 @@ const Conversations = ({ user }) => {
                   conversation={conversation}
                   conversations={conversations}
                   user={user}
+                  usersID = {usersID}
                 />
               ))}
         </div>
