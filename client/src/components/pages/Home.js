@@ -5,17 +5,15 @@ import AuthContext from '../../context/auth/authContext';
 import Messages from '../Sidepanel/Messages';
 import Conversations from '../Sidepanel/Conversations';
 import SearchConversation from '../Sidepanel/SearchConversation';
-import { CLEAR_FILTER, SET_CURRENT_CONVERSATION } from '../../context/types';
+
 
 const Home = ({}) => {
   const authContext = useContext(AuthContext);
-  const { user, loading } = authContext;
+  const { user} = authContext;
   const chatContext = useContext(ChatContext);
   const {
     getConversations,
-    getCurrentConversation,
     conversations,
-    conversation,
     current,
     addMessage,
   } = chatContext;
@@ -24,13 +22,8 @@ const Home = ({}) => {
 
   useEffect(() => {
     getConversations();
-  }, [getConversations, conversations, current]);
+  }, [getConversations, conversations]);
 
-  useEffect(() => {
-    if (current && current !== null && current !== undefined)
-      getCurrentConversation(current._id);
-    console.log(current);
-  }, []);
 
   useEffect(() => {
     authContext.loadUser();
@@ -53,16 +46,18 @@ const Home = ({}) => {
       /// DISCONNECT
 
       return () => {
-        if (user && user !== null && user !== undefined) {
-          const username = user.name;
-          const userID = user._id;
+         
+         
           socket.emit('disconnect', { username, userID }, () => {});
           socket.off();
-        }
+        
       };
     }
   }, [user]);
 
+
+
+  //work in progress to see who is online
   useEffect(() => {
     socket.on('online', (data) => {
       console.log(data);
@@ -70,7 +65,12 @@ const Home = ({}) => {
     });
   }, [usersID]);
 
+
+
+
   const handleNewMessage = async (data, addMessage) => {
+
+
     // Conversation id and message.
 
     const { _id, message } = data;

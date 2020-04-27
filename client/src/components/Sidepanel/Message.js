@@ -1,23 +1,16 @@
 import React, { Fragment, useState,useEffect,  useContext } from 'react';
 import ReactEmoji from 'react-emoji';
-
-import ChatContext from '../../context/chat/chatContext';
 import moment from 'moment';
 
-const Message = ({ user, messages,  message, current }) => {
-  const chatContext = useContext(ChatContext);
-  const { conversation, getCurrentConversation} = chatContext;
+const Message = ({ user, message}) => {
+  const { name, text, date } = message;
 
-
-// useEffect(() => {
-//  getCurrentConversation()
-// }, [conversation])
 
 
   return (
     <Fragment>
       <div className='incoming_msg'>
-        {user && message && message.name !== user.name ? (
+        {user && message && name !== user.name ? (
           <Fragment>
             <div className='incoming_msg_img'>
               <img
@@ -27,10 +20,10 @@ const Message = ({ user, messages,  message, current }) => {
             </div>
             <div className='received_msg'>
               <div className='received_withd_msg'>
-                <p>{ReactEmoji.emojify(message.text)}</p>
+                <p>{ReactEmoji.emojify(text)}</p>
                 <span className='time_date'>
                   {' '}
-                  {moment(`${message.date}`).format('MMM Do YY, h:mm a')}
+                  {moment(`${date}`).format('MMM Do YY, h:mm a')}
                 </span>
               </div>
             </div>{' '}
@@ -39,13 +32,13 @@ const Message = ({ user, messages,  message, current }) => {
       </div>
 
       <div className='outgoing_msg'>
-        {user && message && message.name === user.name ? (
+        {user && message && name === user.name ? (
           <Fragment>
             <div className='sent_msg'>
-              <p>{ReactEmoji.emojify(message.text)}</p>
+              <p>{ReactEmoji.emojify(text)}</p>
               <span className='time_date'>
                 {' '}
-                {moment(`${message.date}`).format('MMM Do YY, h:mm a')}
+                {moment(`${date}`).format('MMM Do YY, h:mm a')}
               </span>
             </div>{' '}
           </Fragment>

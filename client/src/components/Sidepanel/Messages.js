@@ -1,43 +1,28 @@
-import React, { useContext, Fragment, useRef, useEffect } from 'react';
+import React, { useContext, Fragment } from 'react';
 
 import Message from './Message';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
-import Input from '../Input/Input'
-import ScrollToBottom from 'react-scroll-to-bottom'
+import Input from '../Input/Input';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
-const Messages = ({ user, socket, conversations}) => {
+const Messages = ({ user, socket }) => {
   const chatContext = useContext(ChatContext);
-  const { current, loading, addMessage, updateLastMessageReadToServer} = chatContext;
-
-
-
-  if (conversations === null && conversations === undefined || loading) {
-    return (
-      <div className='mesgs'>
-        <div className='msg_history'>
-          
-            <h5>Loading.</h5>
-         
-        </div>
-      </div>
-    );
-  }
+  const { conversation, loading } = chatContext;
 
   return (
     <Fragment>
       <div className='mesgs'>
         <ScrollToBottom className='msg_history'>
-          {current && current !== null && !loading  ? (
+          {conversation && conversation !== null && !loading ? (
             <div>
-              
-              {current.messages.map((message) => (
+              {' '}
+              {conversation.messages.map((message) => (
                 <Message
                   key={message._id}
                   message={message}
-                  current={current}
+                  conversation={conversation}
                   user={user}
-                  messages={current.messages}
                 />
               ))}
             </div>
@@ -45,7 +30,7 @@ const Messages = ({ user, socket, conversations}) => {
             <Spinner />
           )}
         </ScrollToBottom>
-        <Input current={current} user={user} socket={socket}></Input>
+        <Input conversation={conversation} user={user} socket={socket}></Input>
       </div>
     </Fragment>
   );

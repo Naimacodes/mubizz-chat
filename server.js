@@ -4,21 +4,15 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 connectDB();
 
 app.use(bodyParser.json());
 
-//my routes
-app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/conversations', require('./routes/conversations'));
-
-server.listen(process.env.PORT || 5000, () =>
-  console.log(`Server has started.`)
-);
 
 let users = {};
+
 //sockets section
 /////////////////////////////////////////////////////
 
@@ -30,20 +24,43 @@ io.on('connection', (socket) => {
   socket.on('join', ({ username, userID }) => {
     console.log(username + ' with ID number ' + userID + ' is connected');
     users[socket.id] = userID;
-    // // console.log(users[socket.id] );
-    // const data = { users };
     console.log(users[socket.id]);
 
     socket.emit('online', users);
   });
 
   socket.on('logout', ({ username, userID }) => {
-    console.log(username + ' has logged out');
+    console.log(username + ' with ID number ' + userID + ' has logged out');
     delete users[socket.id];
   });
 
-  socket.on('disconnect', ({ username, userID }) => {
-    console.log(username + ' with ID number ' + userID + ' is gone');
+  socket.on('disconnect', () => {
+    console.log('user has disconnected');
     delete users[socket.id];
   });
 });
+
+//my routes
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/conversations', require('./routes/conversations'));
+
+// Serves static assets (react) in production
+
+if (process.env.NODE_ENV === 'production') {
+  //set static folder
+
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+}
+
+server.listen(process.env.PORT || 5000, () =>
+  console.log(`Server has started.`)
+);
+
+
+
+

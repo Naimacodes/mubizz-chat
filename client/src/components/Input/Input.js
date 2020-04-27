@@ -1,13 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState} from 'react';
 import ChatContext from '../../context/chat/chatContext';
 
-const Input = ({ user, current, socket }) => {
+const Input = ({ user, conversation, socket }) => {
   const chatContext = useContext(ChatContext);
   const { addMessageToServer } = chatContext;
-  const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
 
-  // console.log(socket);
+
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -17,19 +16,17 @@ const Input = ({ user, current, socket }) => {
     e.preventDefault();
     if (text === '') {
       return null;
-    } else if (text !== '' && current && current !== null) {
+    } else if (text !== '' && conversation && conversation !== null) {
       const message = {
         name: user.name,
         text: text,
         date: Date.now(),
       };
-      addMessageToServer(current._id, message);
+      addMessageToServer(conversation._id, message);
         setText('');
      
     
-      socket.emit('message', ({ current, message }) => {
-       
-      });
+      
     
     }
   };

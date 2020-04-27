@@ -1,21 +1,17 @@
 import React, { useContext, useState, useEffect, Fragment } from 'react';
 import ChatContext from '../../context/chat/chatContext';
-import AuthContext from '../../context/auth/authContext';
 import Spinner from '../layout/Spinner';
 import moment from 'moment';
 import ReactEmoji from 'react-emoji';
 import onlineIcon from '../../icons/onlineIcon.png';
 
 const ConversationItem = ({ conversation, user, usersID }) => {
-  const [active, setActive] = useState(false);
-  const authContext = useContext(AuthContext);
   const chatContext = useContext(ChatContext);
-  const { isAuthenticated } = authContext;
+
   const {
     loading,
     setCurrentConversation,
     getCurrentConversation,
-    getConversations,
     current,
   } = chatContext;
 

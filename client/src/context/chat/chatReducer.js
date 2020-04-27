@@ -1,14 +1,11 @@
 import {
   GET_CONVERSATIONS,
-  SEND_CONVERSATION_MSGS,
   CONVERSATION_ERROR,
   ADD_MESSAGE,
-  ADD_PARTICIPANTS,
   FILTER_CONVERSATION,
   CLEAR_FILTER,
   GET_CURRENT_CONVERSATION,
   SET_CURRENT_CONVERSATION,
-  UPDATE_LAST_MESSAGE_READ,
 } from '../types';
 
 const compare = (c1, c2) => {
@@ -38,22 +35,17 @@ export default (state, action) => {
         ...state,
         error: action.payload,
       };
-    case ADD_PARTICIPANTS:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case SET_CURRENT_CONVERSATION:
       return {
         ...state,
-        current: action.payload,
+        conversation: action.payload,
         loading: false,
       };
 
     case GET_CURRENT_CONVERSATION:
       return {
         ...state,
-        conversation: action.payload,
+        currentConversation: action.payload,
         loading: false,
       };
     case FILTER_CONVERSATION:
@@ -81,26 +73,14 @@ export default (state, action) => {
               return {
                 ...conversation,
                 messages: [...conversation.messages, action.message],
-                
               };
             }
           })
           .sort(compare),
-          current: [...state.current.messages, action.message].sort(compare),
-            
-          
+        // current: state.current.messages
+        //   .push([...state.current.messages, action.message])
+        //   .sort(compare),
       };
-
-    case UPDATE_LAST_MESSAGE_READ:
-      return state.map((conversation) => {
-        if (conversation._id === action._id) {
-          return {
-            ...conversation,
-            lastMessageRead: action.lastMessageRead,
-          };
-        }
-        return conversation;
-      });
     default:
       return {
         ...state,

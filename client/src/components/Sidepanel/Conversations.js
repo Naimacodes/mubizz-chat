@@ -3,12 +3,9 @@ import ConversationItem from './ConversationItem';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 
-const Conversations = ({ user, usersID}) => {
- 
-
+const Conversations = ({ user, usersID }) => {
   const chatContext = useContext(ChatContext);
   const { conversations, filtered, loading, current } = chatContext;
-
 
   if (conversations !== null && conversations.length === 0 && !loading) {
     return (
@@ -21,7 +18,6 @@ const Conversations = ({ user, usersID}) => {
       </div>
     );
   }
-
 
   return (
     <Fragment>
@@ -42,7 +38,7 @@ const Conversations = ({ user, usersID}) => {
                   conversation={conversation}
                   conversations={conversations}
                   user={user}
-                  usersID = {usersID}
+                  usersID={usersID}
                 />
               ))}
         </div>
