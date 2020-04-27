@@ -23,7 +23,7 @@ const Message = ({ user, message}) => {
                 <p>{ReactEmoji.emojify(text)}</p>
                 <span className='time_date'>
                   {' '}
-                  {moment(`${date}`).format('MMM Do YY, h:mm a')}
+                  {moment(date).format('MMM Do YY, h:mm a')}
                 </span>
               </div>
             </div>{' '}
@@ -38,7 +38,7 @@ const Message = ({ user, message}) => {
               <p>{ReactEmoji.emojify(text)}</p>
               <span className='time_date'>
                 {' '}
-                {moment(`${date}`).format('MMM Do YY, h:mm a')}
+                {moment(date).format('MMM Do YY, h:mm a')}
               </span>
             </div>{' '}
           </Fragment>
