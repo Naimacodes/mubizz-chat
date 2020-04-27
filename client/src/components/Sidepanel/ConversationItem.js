@@ -27,12 +27,13 @@ const ConversationItem = ({ conversation, user, usersID }) => {
   let length = conversation.messages.length;
 
   const getconvo = () => {
+    console.log('setting conversation' , conversation);
     setCurrentConversation(conversation);
 
-    if (current) {
-      getCurrentConversation(current._id);
-    }
-    console.log(conversation);
+    // if (current) {
+    //   getCurrentConversation(current._id);
+    // }
+    
   };
 
   return (

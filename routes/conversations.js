@@ -43,7 +43,8 @@ router.get('/', auth, async (req, res) => {
 // @access  private
 
 router.post('/', auth, async (req, res) => {
-  
+  // get the io object ref
+  const io = req.app.get('socketio');
   try {
     const recipients = req.body.recipients;
     const conversation = await Conversation.findOne({ recipients });
@@ -86,10 +87,8 @@ router.post('/', auth, async (req, res) => {
 // Add a message to a specific conversation and emit message to connected clients.
 
 router.post('/messages', auth, async (req, res) => {
-
   // get the io object ref
-  const io = req.app.get('socketio') 
-
+  const io = req.app.get('socketio');
 
   try {
     const { _id, message } = req.body;
@@ -116,35 +115,21 @@ router.post('/messages', auth, async (req, res) => {
   }
 });
 
-
-
 // @route   get /api/conversations/messages/conversation
 // @access  private
 // find a specific conversation
 
 router.get('/messages/conversation', auth, async (req, res) => {
-
   try {
-    const { _id} = req.body;
+    const { _id } = req.body;
 
-   const conversation = await Conversation.findById(
-      _id
-    )
+    const conversation = await Conversation.findById(_id);
 
-    res.send(conversation)
-
+    res.send(conversation);
   } catch (err) {
     console.error(err.message);
     res.status(400).end();
   }
 });
-
-
-
-
-
-
-
-
 
 module.exports = router;

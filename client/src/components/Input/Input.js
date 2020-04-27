@@ -16,7 +16,7 @@ const Input = ({ user, conversation, socket }) => {
     e.preventDefault();
     if (text === '') {
       return null;
-    } else if (text !== '' && conversation && conversation !== null) {
+    } else if (text !== '') {
       const message = {
         name: user.name,
         text: text,

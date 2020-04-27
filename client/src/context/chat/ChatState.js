@@ -6,7 +6,7 @@ import {
   GET_CONVERSATIONS,
   CONVERSATION_ERROR,
   ADD_MESSAGE,
-  GET_CURRENT_CONVERSATION,
+  // GET_CURRENT_CONVERSATION,
   SET_CURRENT_CONVERSATION,
   FILTER_CONVERSATION,
   CLEAR_FILTER,
@@ -16,9 +16,9 @@ const ChatState = (props) => {
   const initialState = {
     contacts: [],
     conversations: [],
-    currentConversation: null,
+    // currentConversation: null,
     conversation: null,
-    current: null,
+    // current: null,
     filtered: null,
     messages : []
   };
@@ -44,24 +44,24 @@ const ChatState = (props) => {
   };
 
 
-  //gets one specific conversation with _id
-  const getCurrentConversation =  async (_id) => {
+  // //gets one specific conversation with _id
+  // const getCurrentConversation =  async (_id) => {
 
-    try {
-      const res = await axios.get('api/conversations/messages/conversation');
+  //   try {
+  //     const res = await axios.get('api/conversations/messages/conversation');
 
-      dispatch({
-        type: GET_CURRENT_CONVERSATION,
-        payload: res.data,
-      });
-    } catch (err) {
-      dispatch({
-        type: CONVERSATION_ERROR,
-        payload: err.response.msg,
-      });
-    }
+  //     dispatch({
+  //       type: GET_CURRENT_CONVERSATION,
+  //       payload: res.data,
+  //     });
+  //   } catch (err) {
+  //     dispatch({
+  //       type: CONVERSATION_ERROR,
+  //       payload: err.response.msg,
+  //     });
+  //   }
     
-  }
+  // }
 
 
 
@@ -82,7 +82,7 @@ const ChatState = (props) => {
 
 //for socket
 const addMessage = (_id, message) => {
-  return dispatch => dispatch({type: ADD_MESSAGE, payload: _id, message});
+  dispatch({type: ADD_MESSAGE, payload: {_id, message}});
 }; 
 
 
@@ -119,7 +119,7 @@ const addMessage = (_id, message) => {
         getConversations,
         addMessageToServer,
         addMessage,
-        getCurrentConversation,
+        // getCurrentConversation,
         setCurrentConversation,
         filterConversation,
         clearFilter,
