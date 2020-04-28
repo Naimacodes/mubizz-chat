@@ -1,12 +1,12 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import ChatContext from '../../context/chat/chatContext';
+import Dropzone from 'react-dropzone';
+import Axios from 'axios';
 
 const Input = ({ user, conversation, socket }) => {
   const chatContext = useContext(ChatContext);
   const { addMessageToServer } = chatContext;
   const [text, setText] = useState('');
-
-
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -23,15 +23,20 @@ const Input = ({ user, conversation, socket }) => {
         date: Date.now(),
       };
       addMessageToServer(conversation._id, message);
-        setText('');
-     
-    
-      
-    
+      setText('');
     }
   };
 
-  
+  const onDrop = (files) => {
+    console.log(files);
+    let formData= new FormData;
+    const config = {
+      header : {'content-type': 'multipart/form-data'}
+    }
+    formData.append('file', files[0])
+    Axios.post('api/conversations/uploadfiles', formData, config )
+    .then()
+  };
 
   return (
     <form className='type_msg' onSubmit={onSubmit}>
@@ -44,6 +49,19 @@ const Input = ({ user, conversation, socket }) => {
           className='input_msg_write'
           placeholder='Type a message'
         />
+        <Dropzone onDrop={onDrop}>
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <button className='upload_btn' type='button'>
+                  <i className='fas fa-cloud-upload-alt' aria-hidden='true'></i>
+                </button>
+              </div>
+            </section>
+          )}
+        </Dropzone>
+
         <button className='msg_send_btn' type='button' onClick={onSubmit}>
           <i className='fa fa-paper-plane' aria-hidden='true'></i>
         </button>

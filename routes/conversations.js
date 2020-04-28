@@ -3,11 +3,31 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Conversation = require('../models/Conversation');
 const User = require('../models/User');
+const multer = require('multer');
+const fs = require('fs');
 
-//test route
-router.get('/test', (req, res) => {
-  res.send('test route');
+//multer library variables
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now());
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (ext !== '.jpg' && ext !== '.png' && ext !== '.mp4') {
+      return cb(
+        res.status(400).end('You can only send jpg, png, andd mp4 files.'),
+        false
+      );
+    }
+
+    cb(null, true);
+  },
 });
+
+let upload = multer({ storage: storage }).single('file');
 
 //@route api/messages
 //@desc get list of all the conversations of a user
@@ -130,6 +150,22 @@ router.get('/messages/conversation', auth, async (req, res) => {
     console.error(err.message);
     res.status(400).end();
   }
+});
+
+// @route   get /api/conversations/uploadfiles
+// @access  private
+// find a specific conversation and add a file to it
+
+router.post('/uploadfiles', auth, (req, res) => {
+  // get the io object ref
+  const io = req.app.get('socketio');
+
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({ success: true, url: res.req.file.path });
+  });
 });
 
 module.exports = router;
