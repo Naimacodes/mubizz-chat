@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState, Fragment } from 'react';
+import React, { useContext, Fragment } from 'react';
 import ConversationItem from './ConversationItem';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 
 const Conversations = ({ user, usersID }) => {
   const chatContext = useContext(ChatContext);
-  const { conversations, filtered, loading, current } = chatContext;
+  const { conversations, filtered, loading} = chatContext;
 
   if (conversations !== null && conversations.length === 0 && !loading) {
     return (

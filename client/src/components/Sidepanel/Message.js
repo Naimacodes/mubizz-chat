@@ -1,11 +1,9 @@
-import React, { Fragment, useState,useEffect,  useContext } from 'react';
+import React, { Fragment } from 'react';
 import ReactEmoji from 'react-emoji';
 import moment from 'moment';
 
-const Message = ({ user, message}) => {
-  const { name, text, date } = message;
-
-
+const Message = ({ user, message }) => {
+  const { name, text, date, url } = message;
 
   return (
     <Fragment>
@@ -20,7 +18,27 @@ const Message = ({ user, message}) => {
             </div>
             <div className='received_msg'>
               <div className='received_withd_msg'>
-                <p>{ReactEmoji.emojify(text)}</p>
+                <p>
+                  {message.type === 'VideoOrImage' ? (
+                    url.substring(url.length - 3, url.length) === 'mp4' ? (
+                      <video
+                        src={`http://localhost:5000/${url}`}
+                        alt='uploaded-vid'
+                        type='video/mp4'
+                        controls
+                      ></video>
+                    ) : (
+                      <span>
+                        <img
+                          src={`http://localhost:5000/${url}`}
+                          alt='uploaded-pic'
+                        ></img>
+                      </span>
+                    )
+                  ) : (
+                    ReactEmoji.emojify(text)
+                  )}
+                </p>
                 <span className='time_date'>
                   {' '}
                   {moment(date).format('MMM Do YY, h:mm a')}
@@ -35,7 +53,22 @@ const Message = ({ user, message}) => {
         {user && message && name === user.name ? (
           <Fragment>
             <div className='sent_msg'>
-              <p>{ReactEmoji.emojify(text)}</p>
+              <p>
+                {message.type === 'VideoOrImage' ? (
+                  url.substring(url.length - 3, url.length) === 'mp4' ? (
+                    <video
+                      src={`http://localhost:5000/${url}`}
+                      alt='video'
+                      type='video/mp4'
+                      controls
+                    ></video>
+                  ) : (
+                    <img src={`http://localhost:5000/${url}`} alt='sent-pic'></img>
+                  )
+                ) : (
+                  ReactEmoji.emojify(text)
+                )}
+              </p>
               <span className='time_date'>
                 {' '}
                 {moment(date).format('MMM Do YY, h:mm a')}

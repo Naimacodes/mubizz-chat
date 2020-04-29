@@ -27,15 +27,36 @@ const Input = ({ user, conversation, socket }) => {
     }
   };
 
+
+  //uploading files to chat
   const onDrop = (files) => {
     console.log(files);
-    let formData= new FormData;
+    let formData = new FormData();
     const config = {
-      header : {'content-type': 'multipart/form-data'}
-    }
-    formData.append('file', files[0])
-    Axios.post('api/conversations/uploadfiles', formData, config )
-    .then()
+      header: { 'content-type': 'multipart/form-data' },
+    };
+    formData.append('file', files[0]);
+    Axios.post('api/conversations/uploadfiles', formData, config).then(
+      (res) => {
+        if (res.data.success) {
+          let url = res.data.url;
+          const message = {
+            name: user.name,
+            text: text,
+            date: Date.now(),
+            url: url,
+            type: 'VideoOrImage'
+          };
+          
+
+          addMessageToServer(
+            conversation._id,
+            message
+          
+          );
+        }
+      }
+    );
   };
 
   return (

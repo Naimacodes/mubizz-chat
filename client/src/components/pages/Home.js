@@ -6,7 +6,7 @@ import Messages from '../Sidepanel/Messages';
 import Conversations from '../Sidepanel/Conversations';
 import SearchConversation from '../Sidepanel/SearchConversation';
 
-const Home = ({}) => {
+const Home = () => {
   const authContext = useContext(AuthContext);
   const { user } = authContext;
   const chatContext = useContext(ChatContext);
@@ -25,6 +25,7 @@ const Home = ({}) => {
 
   useEffect(() => {
     authContext.loadUser();
+    // eslint-disable-next-line
   }, []);
 
   // socket for user connecting to the app

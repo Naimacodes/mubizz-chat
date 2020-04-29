@@ -65,13 +65,7 @@ export default (state, action) => {
         filtered: null,
       };
     case ADD_MESSAGE:
-      console.log(
-        'received message reducer',
-        action.payload.message,
-        action.payload._id
-      );
       let conversations = [...state.conversations];
-      console.log('conversations reducer', conversations);
       let updatedConversation = conversations.find(
         (conversation) => conversation._id === action.payload._id
       );
@@ -79,11 +73,9 @@ export default (state, action) => {
         ...updatedConversation,
         messages: [...updatedConversation.messages, action.payload.message],
       };
-      console.log('updated conversation', updatedConversation);
       return {
         ...state,
         conversations: conversations,
-        // filtered: conversations,
         conversation: updatedConversation,
       };
     default:

@@ -5,11 +5,14 @@ const io = require('socket.io')(server);
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 connectDB();
 
 app.use(bodyParser.json());
 
+// CORS middleware
+app.use(cors());
 
 let users = {};
 
@@ -23,10 +26,10 @@ io.on('connection', (socket) => {
 
   socket.on('join', ({ username, userID }) => {
     console.log(username + ' with ID number ' + userID + ' is connected');
-    users[socket.id] = userID;
+    users[socket.id] = username;
     console.log(users[socket.id]);
 
-    socket.emit('online', users);
+    socket.emit('online', [users]);
   });
 
   socket.on('logout', ({ username, userID }) => {
@@ -45,6 +48,8 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/conversations', require('./routes/conversations'));
 
+app.use('/uploads', express.static('uploads'));
+
 // Serves static assets (react) in production
 
 if (process.env.NODE_ENV === 'production') {
@@ -60,7 +65,3 @@ if (process.env.NODE_ENV === 'production') {
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)
 );
-
-
-
-

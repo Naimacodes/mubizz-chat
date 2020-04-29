@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, { useContext,Fragment } from 'react';
 import ChatContext from '../../context/chat/chatContext';
 import Spinner from '../layout/Spinner';
 import moment from 'moment';
 import ReactEmoji from 'react-emoji';
 import onlineIcon from '../../icons/onlineIcon.png';
+import socket from '../../socketConfig';
 
 const ConversationItem = ({ conversation, user, usersID }) => {
   const chatContext = useContext(ChatContext);
@@ -11,7 +12,6 @@ const ConversationItem = ({ conversation, user, usersID }) => {
   const {
     loading,
     setCurrentConversation,
-    getCurrentConversation,
     current,
   } = chatContext;
 
@@ -27,14 +27,26 @@ const ConversationItem = ({ conversation, user, usersID }) => {
   let length = conversation.messages.length;
 
   const getconvo = () => {
-    console.log('setting conversation' , conversation);
+    console.log('setting conversation', conversation);
     setCurrentConversation(conversation);
-
-    // if (current) {
-    //   getCurrentConversation(current._id);
-    // }
-    
   };
+
+
+
+  const whosOnline = (usersID) => {
+    for (let i = 0; i < usersID.length; i++) {
+      if (usersID[i][socket.id] !== user.name) {
+        console.log(usersID[i][socket.id]);
+        return usersID[i][socket.id];
+      
+
+      }
+    }
+    return null;
+  };
+
+  // if(usersID)
+  // {console.log()}
 
   return (
     <Fragment>
@@ -59,6 +71,8 @@ const ConversationItem = ({ conversation, user, usersID }) => {
                   ? handleRecipient(conversation.recipients)
                   : 'loading'}
 
+             
+
                 <Fragment>
                   {conversation.messages.length !== 0 ? (
                     <span className='chat_date'>
@@ -68,13 +82,25 @@ const ConversationItem = ({ conversation, user, usersID }) => {
                     </span>
                   ) : null}
                 </Fragment>
-                {/* { ? <img  className="iconOnline"  alt="Online Icon" src={onlineIcon}/> : ""} */}
               </h5>
-
+              <div>{user !== null && usersID ? whosOnline(usersID) : null}</div>
               {conversation.messages.length !== 0 ? (
-                <div>
-                  {ReactEmoji.emojify(conversation.messages[length - 1].text)}
-                </div>
+                conversation.messages[length - 1].text === '' ? (
+                  <div>
+                    <p>
+                      {' '}
+                      <i className='fas fa-mountain'></i> A media file was sent.
+                    </p>{' '}
+                  </div>
+                ) : (
+                  <div>
+                    <p>
+                      {ReactEmoji.emojify(
+                        conversation.messages[length - 1].text
+                      )}
+                    </p>
+                  </div>
+                )
               ) : null}
             </div>
           </div>
