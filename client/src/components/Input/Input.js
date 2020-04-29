@@ -14,7 +14,7 @@ const Input = ({ user, conversation, socket }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (text === '') {
+    if (text === '' || conversation === null) {
       return null;
     } else if (text !== '') {
       const message = {
@@ -26,7 +26,6 @@ const Input = ({ user, conversation, socket }) => {
       setText('');
     }
   };
-
 
   //uploading files to chat
   const onDrop = (files) => {
@@ -45,21 +44,22 @@ const Input = ({ user, conversation, socket }) => {
             text: text,
             date: Date.now(),
             url: url,
-            type: 'VideoOrImage'
+            type: 'VideoOrImage',
           };
-          
 
-          addMessageToServer(
-            conversation._id,
-            message
-          
-          );
+          if (!conversation && !conversation._id) {
+            return;
+          } else {
+            addMessageToServer(conversation._id, message);
+          }
         }
       }
     );
   };
-
-  return (
+  if (!conversation && conversation === null )
+    {return null }
+    else {
+      return (
     <form className='type_msg' onSubmit={onSubmit}>
       <div className='input_msg_write'>
         <input
@@ -89,6 +89,7 @@ const Input = ({ user, conversation, socket }) => {
       </div>
     </form>
   );
+}
 };
 
 export default Input;
